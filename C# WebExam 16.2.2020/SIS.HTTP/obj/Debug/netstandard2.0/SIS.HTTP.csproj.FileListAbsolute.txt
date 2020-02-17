@@ -1,0 +1,8 @@
+C:\Users\Miro\source\repos\C# WebExam 16.2.2020\SIS.HTTP\bin\Debug\netstandard2.0\SIS.HTTP.deps.json
+C:\Users\Miro\source\repos\C# WebExam 16.2.2020\SIS.HTTP\bin\Debug\netstandard2.0\SIS.HTTP.dll
+C:\Users\Miro\source\repos\C# WebExam 16.2.2020\SIS.HTTP\bin\Debug\netstandard2.0\SIS.HTTP.pdb
+C:\Users\Miro\source\repos\C# WebExam 16.2.2020\SIS.HTTP\obj\Debug\netstandard2.0\SIS.HTTP.csprojAssemblyReference.cache
+C:\Users\Miro\source\repos\C# WebExam 16.2.2020\SIS.HTTP\obj\Debug\netstandard2.0\SIS.HTTP.AssemblyInfoInputs.cache
+C:\Users\Miro\source\repos\C# WebExam 16.2.2020\SIS.HTTP\obj\Debug\netstandard2.0\SIS.HTTP.AssemblyInfo.cs
+C:\Users\Miro\source\repos\C# WebExam 16.2.2020\SIS.HTTP\obj\Debug\netstandard2.0\SIS.HTTP.dll
+C:\Users\Miro\source\repos\C# WebExam 16.2.2020\SIS.HTTP\obj\Debug\netstandard2.0\SIS.HTTP.pdb
