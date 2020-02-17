@@ -1,0 +1,11 @@
+C:\Users\Miro\source\repos\ExamPrep C# WEB\ExamPrep\SIS.MvcFramework\bin\Debug\netstandard2.0\SIS.MvcFramework.deps.json
+C:\Users\Miro\source\repos\ExamPrep C# WEB\ExamPrep\SIS.MvcFramework\bin\Debug\netstandard2.0\SIS.MvcFramework.dll
+C:\Users\Miro\source\repos\ExamPrep C# WEB\ExamPrep\SIS.MvcFramework\bin\Debug\netstandard2.0\SIS.MvcFramework.pdb
+C:\Users\Miro\source\repos\ExamPrep C# WEB\ExamPrep\SIS.MvcFramework\bin\Debug\netstandard2.0\SIS.HTTP.dll
+C:\Users\Miro\source\repos\ExamPrep C# WEB\ExamPrep\SIS.MvcFramework\bin\Debug\netstandard2.0\SIS.HTTP.pdb
+C:\Users\Miro\source\repos\ExamPrep C# WEB\ExamPrep\SIS.MvcFramework\obj\Debug\netstandard2.0\SIS.MvcFramework.csprojAssemblyReference.cache
+C:\Users\Miro\source\repos\ExamPrep C# WEB\ExamPrep\SIS.MvcFramework\obj\Debug\netstandard2.0\SIS.MvcFramework.AssemblyInfoInputs.cache
+C:\Users\Miro\source\repos\ExamPrep C# WEB\ExamPrep\SIS.MvcFramework\obj\Debug\netstandard2.0\SIS.MvcFramework.AssemblyInfo.cs
+C:\Users\Miro\source\repos\ExamPrep C# WEB\ExamPrep\SIS.MvcFramework\obj\Debug\netstandard2.0\SIS.MvcFramework.csproj.CopyComplete
+C:\Users\Miro\source\repos\ExamPrep C# WEB\ExamPrep\SIS.MvcFramework\obj\Debug\netstandard2.0\SIS.MvcFramework.dll
+C:\Users\Miro\source\repos\ExamPrep C# WEB\ExamPrep\SIS.MvcFramework\obj\Debug\netstandard2.0\SIS.MvcFramework.pdb
