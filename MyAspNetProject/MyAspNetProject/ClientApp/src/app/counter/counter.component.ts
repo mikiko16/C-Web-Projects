@@ -10,4 +10,9 @@ export class CounterComponent {
   public incrementCounter() {
     this.currentCount++;
   }
+
+  public ShowMiro() {
+    console.log('Miro is the best');
+    this.currentCount++;
+  }
 }
