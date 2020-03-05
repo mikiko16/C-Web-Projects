@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MyAspNetProject.Models;
 
 namespace MyAspNetProject.Data
 {
@@ -16,5 +17,7 @@ namespace MyAspNetProject.Data
             //modelBuilder.Entity<UserTrip>()
             //    .HasKey(k => new { k.TripId, k.UserId });
         }
+
+        public DbSet<User> Users { get; set; }
     }
 }
