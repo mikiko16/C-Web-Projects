@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MyAspNetProject.Models
 {
-    public class User
+    public class User : IdentityUser
     {
         public User()
         {
@@ -14,18 +12,21 @@ namespace MyAspNetProject.Models
         }
 
         [Required]
-        public string Id { get; set; }
-
-        [Required]
-        public string Name { get; set; }
+        public string FirstName { get; set; }
 
         [Required]
         public string LastName { get; set; }
 
         [Required]
-        public string Email { get; set; }
+        public string CompanyName { get; set; }
 
         [Required]
-        public string CompanyName { get; set; }
+        public string Password { get; set; }
+
+        [Required]
+        public string ConfirmPassword { get; set; }
+
+        [Required]
+        public bool isActive => false;
     }
 }
