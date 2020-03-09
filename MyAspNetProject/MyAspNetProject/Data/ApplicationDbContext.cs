@@ -11,6 +11,6 @@ namespace MyAspNetProject.Data
 
         }
 
-        //public DbSet<User> Users { get; set; }
+
     }
 }

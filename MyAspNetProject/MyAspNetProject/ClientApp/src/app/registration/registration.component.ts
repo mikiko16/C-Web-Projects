@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject, InjectionToken } from '@angular/core';
 import { RegisterModel } from '../models/RegisterModel';
 import { HttpClient } from '@angular/common/http';
+import { RouterModule, Routes } from '@angular/router';
 
 @Component({
   selector: 'app-registration',
@@ -26,6 +27,8 @@ export class RegistrationComponent implements OnInit {
   submit() {
     this.http.post(this.BASE_URL + 'api/User/Register', this.model).subscribe(result => {
     }, error => console.error(error));
+
+    router.navigate(['/Home']);
   }
 
 }

@@ -38,7 +38,6 @@
       <input type="password" class="form-control" id="password"
              required
              name="password"
-             pattern="^[A-Z][a-z\d]{4,16}$"
              [(ngModel)]="model.password"
              #password="ngModel">
       <div [hidden]="password.valid || password.pristine" class="alert alert-danger">

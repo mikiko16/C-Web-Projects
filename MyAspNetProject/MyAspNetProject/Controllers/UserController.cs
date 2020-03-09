@@ -9,7 +9,7 @@ namespace MyAspNetProject.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController //: BaseController<User, IdentityRole, ApplicationDbContext>
+    public class UserController : ControllerBase
     {
         private readonly ApplicationDbContext db;
         private readonly UserManager<User> _userManager;
@@ -32,6 +32,7 @@ namespace MyAspNetProject.Controllers
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 Password = model.Password,
+                ConfirmPassword = model.ConfirmPassword,
                 Email = model.Email,
                 CompanyName = model.CompanyName,
                 UserName = model.UserName
@@ -40,7 +41,7 @@ namespace MyAspNetProject.Controllers
             try
             {
                 var result = await _userManager.CreateAsync(user, model.Password);
-                return result;
+                return Redirect("/Home");
             }
             catch (Exception ex)
             {
