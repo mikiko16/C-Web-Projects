@@ -12,6 +12,7 @@ namespace MyAspNetProject.Data
             optionsBuilder.UseSqlServer(DatabaseConfiguration.ConnectionString);
         }
 
+<<<<<<< HEAD
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //modelBuilder.Entity<UserTrip>()
@@ -19,5 +20,8 @@ namespace MyAspNetProject.Data
         }
 
         public DbSet<User> Users { get; set; }
+=======
+        //public DbSet<User> Users { get; set; }
+>>>>>>> parent of a44f7aa... Register and Login Works!!!
     }
 }

@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+<<<<<<< HEAD
 using System.Linq;
 using System.Threading.Tasks;
+=======
+>>>>>>> parent of a44f7aa... Register and Login Works!!!
 
 namespace MyAspNetProject.Models
 {
@@ -12,6 +15,12 @@ namespace MyAspNetProject.Models
         {
             this.Id = Guid.NewGuid().ToString();
         }
+<<<<<<< HEAD
+=======
+
+        [Required]
+        public string FirstName { get; set; }
+>>>>>>> parent of a44f7aa... Register and Login Works!!!
 
         [Required]
         public string Id { get; set; }

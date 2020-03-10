@@ -43,7 +43,11 @@ namespace MyAspNetProject.Controllers
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
                 return RedirectToAction("index", "home");
+=======
+                return result;
+>>>>>>> parent of a44f7aa... Register and Login Works!!!
 =======
                 return result;
 >>>>>>> parent of a44f7aa... Register and Login Works!!!

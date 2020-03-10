@@ -34,9 +34,12 @@ namespace MyAspNetProject
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
            // services.AddDefaultIdentity<User>()
            //     .AddEntityFrameworkStores<ApplicationDbContext>();
 =======
+=======
+>>>>>>> parent of a44f7aa... Register and Login Works!!!
 =======
 >>>>>>> parent of a44f7aa... Register and Login Works!!!
 =======
@@ -56,6 +59,7 @@ namespace MyAspNetProject
             );
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> parent of a44f7aa... Register and Login Works!!!
 =======
 >>>>>>> parent of a44f7aa... Register and Login Works!!!
@@ -65,6 +69,10 @@ namespace MyAspNetProject
            // services.AddCors();
 =======
 >>>>>>> parent of 7330c2a... Added so much things !!!
+=======
+
+            services.AddCors();
+>>>>>>> parent of a44f7aa... Register and Login Works!!!
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
