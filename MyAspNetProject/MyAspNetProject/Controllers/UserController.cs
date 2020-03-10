@@ -41,7 +41,7 @@ namespace MyAspNetProject.Controllers
             try
             {
                 var result = await _userManager.CreateAsync(user, model.Password);
-                return Redirect("/Home");
+                return RedirectToAction("index", "home");
             }
             catch (Exception ex)
             {

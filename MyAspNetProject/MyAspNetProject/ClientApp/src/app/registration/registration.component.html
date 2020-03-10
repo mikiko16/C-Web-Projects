@@ -77,6 +77,7 @@
     </div>
 
     <button type="submit" class="btn btn-success" [disabled]="registrationForm.form.invalid">Register</button>
+    <button class="social-signin facebook">Log in with facebook</button>
   </form>
   <div *ngIf="loginFailed">
     {{errMessage}}
