@@ -34,8 +34,24 @@ namespace MyAspNetProject
             services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("IdentityConnection")));
 
+<<<<<<< HEAD
            // services.AddDefaultIdentity<User>()
            //     .AddEntityFrameworkStores<ApplicationDbContext>();
+=======
+            services.AddIdentity<User, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
+
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequireDigit = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequiredLength = 4;
+            }
+            );
+>>>>>>> parent of a44f7aa... Register and Login Works!!!
 
            // services.AddCors();
         }
@@ -93,7 +109,7 @@ namespace MyAspNetProject
                 if (env.IsDevelopment())
                 {
                     spa.UseAngularCliServer(npmScript: "ng serve");
-                    spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
+                    //spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
                 }
             });
         }

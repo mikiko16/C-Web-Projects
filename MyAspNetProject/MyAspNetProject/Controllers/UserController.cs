@@ -9,7 +9,7 @@ namespace MyAspNetProject.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class UserController //: BaseController<User, IdentityRole, ApplicationDbContext>
     {
         private readonly ApplicationDbContext db;
         private readonly UserManager<User> _userManager;
@@ -32,7 +32,6 @@ namespace MyAspNetProject.Controllers
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 Password = model.Password,
-                ConfirmPassword = model.ConfirmPassword,
                 Email = model.Email,
                 CompanyName = model.CompanyName,
                 UserName = model.UserName
@@ -41,7 +40,11 @@ namespace MyAspNetProject.Controllers
             try
             {
                 var result = await _userManager.CreateAsync(user, model.Password);
+<<<<<<< HEAD
                 return RedirectToAction("index", "home");
+=======
+                return result;
+>>>>>>> parent of a44f7aa... Register and Login Works!!!
             }
             catch (Exception ex)
             {
