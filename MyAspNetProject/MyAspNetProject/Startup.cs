@@ -1,13 +1,10 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using MyAspNetProject.Data;
-using MyAspNetProject.Models;
 
 namespace MyAspNetProject
 {
@@ -25,11 +22,11 @@ namespace MyAspNetProject
         {
             services.AddControllersWithViews();
             // In production, the Angular files will be served from this directory
-
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/dist";
             });
+<<<<<<< HEAD
 
             services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("IdentityConnection")));
@@ -66,24 +63,13 @@ namespace MyAspNetProject
 >>>>>>> parent of a44f7aa... Register and Login Works!!!
 
            // services.AddCors();
+=======
+>>>>>>> parent of 7330c2a... Added so much things !!!
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-
-            using (var serviceScope = app.ApplicationServices.CreateScope())
-            {
-                var dbContext = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-
-                if (env.IsDevelopment())
-                {
-                    dbContext.Database.Migrate();
-                }
-
-                //new ApplicationDbContext().SeedAsync(dbContext, serviceScope.ServiceProvider).GetAwaiter().GetResult();
-            }
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

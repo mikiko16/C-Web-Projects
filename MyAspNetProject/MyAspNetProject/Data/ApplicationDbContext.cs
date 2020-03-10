@@ -1,16 +1,23 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using MyAspNetProject.Models;
 
 namespace MyAspNetProject.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<User>
+    public class ApplicationDbContext : DbContext
     {
-        public ApplicationDbContext(DbContextOptions options) : base(options)
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            base.OnConfiguring(optionsBuilder);
 
+            optionsBuilder.UseSqlServer(DatabaseConfiguration.ConnectionString);
         }
 
-        //public DbSet<User> Users { get; set; }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            //modelBuilder.Entity<UserTrip>()
+            //    .HasKey(k => new { k.TripId, k.UserId });
+        }
+
+        public DbSet<User> Users { get; set; }
     }
 }
