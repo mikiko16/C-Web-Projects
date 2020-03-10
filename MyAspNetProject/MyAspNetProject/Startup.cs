@@ -35,9 +35,12 @@ namespace MyAspNetProject
             options.UseSqlServer(Configuration.GetConnectionString("IdentityConnection")));
 
 <<<<<<< HEAD
+<<<<<<< HEAD
            // services.AddDefaultIdentity<User>()
            //     .AddEntityFrameworkStores<ApplicationDbContext>();
 =======
+=======
+>>>>>>> parent of a44f7aa... Register and Login Works!!!
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
@@ -51,6 +54,9 @@ namespace MyAspNetProject
                 options.Password.RequiredLength = 4;
             }
             );
+<<<<<<< HEAD
+>>>>>>> parent of a44f7aa... Register and Login Works!!!
+=======
 >>>>>>> parent of a44f7aa... Register and Login Works!!!
 
            // services.AddCors();
