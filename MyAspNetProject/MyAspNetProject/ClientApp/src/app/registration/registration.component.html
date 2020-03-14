@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-<div id="login-box">
-  <div class="left">
-    <h1>Sign up</h1>
-=======
 <div class="container">
   <h1>Registration Form</h1>
   <form #registrationForm="ngForm" (ngSubmit)="submit()">
@@ -31,34 +26,15 @@
       </div>
     </div>
     <div class="form-group">
-      <label for="username">Username</label>
-      <input type="text" class="form-control" id="username"
+      <label for="passwordhash">Password</label>
+      <input type="password" class="form-control" id="passwordhash"
              required
-             name="username"
-             [(ngModel)]="model.username"
-             #password="ngModel">
-    </div>
-    <div class="form-group">
-      <label for="password">Password</label>
-      <input type="password" class="form-control" id="password"
-             required
-             name="password"
+             name="passwordhash"
              pattern="^[A-Z][a-z\d]{4,16}$"
-             [(ngModel)]="model.password"
-             #password="ngModel">
-      <div [hidden]="password.valid || password.pristine" class="alert alert-danger">
-        Username must start with a capital letter and must contain only letters and digits.
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="confirmPassword">Confirm Password</label>
-      <input type="password" class="form-control" id="confirmPassword"
-             required
-             name="confirmPassword"
-             [(ngModel)]="model.confirmPassword"
-             #confirmPassword="ngModel">
-      <div [hidden]="password.value === confirmPassword.value || password.pristine" class="alert alert-danger">
-        Both Passwords must match.
+             [(ngModel)]="model.passwordhash"
+             #passwordhash="ngModel">
+      <div [hidden]="passwordhash.valid || passwordhash.pristine" class="alert alert-danger">
+        Password must start with a capital letter and must contain only letters and digits.
       </div>
     </div>
     <div class="form-group">
@@ -74,53 +50,17 @@
       </div>
     </div>
     <div class="form-group">
-      <label for="age">Company Name</label>
+      <label for="email">Company name</label>
       <input type="text" class="form-control" id="companyname"
              required
              name="companyname"
              [(ngModel)]="model.companyname"
              #companyname="ngModel">
     </div>
->>>>>>> parent of a44f7aa... Register and Login Works!!!
 
-<<<<<<< HEAD
     <button type="submit" class="btn btn-success" [disabled]="registrationForm.form.invalid">Register</button>
-    <button class="social-signin facebook">Log in with facebook</button>
   </form>
   <div *ngIf="loginFailed">
     {{errMessage}}
-=======
-    <input type="text" name="username" placeholder="Username" />
-    <input type="text" name="email" placeholder="E-mail" />
-    <input type="password" name="password" placeholder="Password" />
-    <input type="password" name="password2" placeholder="Retype password" />
-
-    <input type="submit" name="signup_submit" value="Sign me up" />
   </div>
-
-  <div class="right">
-    <span class="loginwith">Sign in with<br />social network</span>
-
-    <button class="social-signin facebook">Log in with facebook</button>
-  </div>
-  <div class="or">OR</div>
-</div><div id="login-box">
-  <div class="left">
-    <h1>Sign up</h1>
-
-    <input type="text" name="username" placeholder="Username" />
-    <input type="text" name="email" placeholder="E-mail" />
-    <input type="password" name="password" placeholder="Password" />
-    <input type="password" name="password2" placeholder="Retype password" />
-
-    <input type="submit" name="signup_submit" value="Sign me up" />
-  </div>
-
-  <div class="right">
-    <span class="loginwith">Sign in with<br />social network</span>
-
-    <button class="social-signin facebook">Log in with facebook</button>
->>>>>>> parent of 7330c2a... Added so much things !!!
-  </div>
-  <div class="or">OR</div>
 </div>

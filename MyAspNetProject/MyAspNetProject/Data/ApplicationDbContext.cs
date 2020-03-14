@@ -1,10 +1,18 @@
-﻿using Microsoft.EntityFrameworkCore;
-using MyAspNetProject.Models;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using MyAspNetProject.models;
 
 namespace MyAspNetProject.Data
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : DbContext//: IdentityDbContext<User>
     {
+        public ApplicationDbContext(DbContextOptions options) : base(options)
+        {
+        }
+
+        public ApplicationDbContext()
+        {
+        }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
@@ -12,16 +20,6 @@ namespace MyAspNetProject.Data
             optionsBuilder.UseSqlServer(DatabaseConfiguration.ConnectionString);
         }
 
-<<<<<<< HEAD
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            //modelBuilder.Entity<UserTrip>()
-            //    .HasKey(k => new { k.TripId, k.UserId });
-        }
-
-        public DbSet<User> Users { get; set; }
-=======
-        //public DbSet<User> Users { get; set; }
->>>>>>> parent of a44f7aa... Register and Login Works!!!
+        public DbSet<UserApp> Users { get; set; }
     }
 }

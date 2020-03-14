@@ -1,69 +1,69 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MyAspNetProject.Data;
+using MyAspNetProject.models;
 using MyAspNetProject.Models;
-using System;
-using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MyAspNetProject.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
-    public class UserController //: BaseController<User, IdentityRole, ApplicationDbContext>
+    [Route("api/[controller]")]
+    public class UserController : ControllerBase
     {
         private readonly ApplicationDbContext db;
-        private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
 
-        public UserController(ApplicationDbContext db, UserManager<User> userManager, SignInManager<User> signInManager)
+        public UserController(ApplicationDbContext db)
         {
             this.db = db;
-            this._userManager = userManager;
-            this._signInManager = signInManager;
+        }
+
+        [HttpPut]
+        [Route("{id}")]
+        public ActionResult<IEnumerable<UserApp>> UpdateUserState(string id)
+        {
+            var user = db.Users.FirstOrDefault(x => x.Id == id);
+            user.IsActive = true;
+            db.SaveChanges();
+
+            var notActiveUsers = db.Users.Where(x => x.IsActive == false).ToList();
+            return notActiveUsers;
+        }
+
+
+        [HttpGet]
+        [Route("All")]
+        public ActionResult<IEnumerable<UserApp>> GetNotActiveUsers()
+        {
+            return db.Users.Where(x => x.IsActive == false).ToList();
+        }
+
+        [HttpPost]
+        [Route("Login")]
+        public ActionResult<UserApp> Get(LoginUser model)
+        {
+            var user = this.db.Users.FirstOrDefault(x => x.Email == model.Email);
+
+            if (user == null)
+            {
+                return this.NotFound();
+            }
+            if (user.PasswordHash != model.PasswordHash)
+            {
+                return this.BadRequest();
+            }
+
+            return user;
         }
 
         [HttpPost]
         [Route("Register")]
-        //POST : /api/User/Register
-        public async Task<Object> PostApplicationUser(User model)
+        public ActionResult<UserApp> PostRegister(UserApp model)
         {
-            var user = new User()
-            {
-                FirstName = model.FirstName,
-                LastName = model.LastName,
-                Password = model.Password,
-                Email = model.Email,
-                CompanyName = model.CompanyName,
-                UserName = model.UserName
-            };
-
-            try
-            {
-                var result = await _userManager.CreateAsync(user, model.Password);
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-                return RedirectToAction("index", "home");
-=======
-                return result;
->>>>>>> parent of a44f7aa... Register and Login Works!!!
-=======
-                return result;
->>>>>>> parent of a44f7aa... Register and Login Works!!!
-=======
-                return result;
->>>>>>> parent of a44f7aa... Register and Login Works!!!
-=======
-                return result;
->>>>>>> parent of a44f7aa... Register and Login Works!!!
-            }
-            catch (Exception ex)
-            {
-
-                throw ex;
-            }
+            this.db.Users.Add(model);
+            this.db.SaveChanges();
+            return this.Created($"api/User/Register", model);
         }
-
     }
 }

@@ -11,12 +11,13 @@ namespace MyAspNetProject.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(nullable: false),
-                    FirstName = table.Column<string>(nullable: false),
-                    LastName = table.Column<string>(nullable: false),
+                    PasswordHash = table.Column<string>(nullable: false),
                     Email = table.Column<string>(nullable: false),
                     CompanyName = table.Column<string>(nullable: false),
-                    Password = table.Column<string>(nullable: false),
-                    ConfirmPassword = table.Column<string>(nullable: false)
+                    IsActive = table.Column<bool>(nullable: true),
+                    FirstName = table.Column<string>(nullable: false),
+                    LastName = table.Column<string>(nullable: false),
+                    IsAdmin = table.Column<bool>(nullable: true)
                 },
                 constraints: table =>
                 {

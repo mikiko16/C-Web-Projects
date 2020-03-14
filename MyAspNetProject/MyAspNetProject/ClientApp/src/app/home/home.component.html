@@ -1,19 +1,18 @@
-<div id="login-box">
-  <div class="left">
-    <h1>Sign up</h1>
-
-    <input type="text" name="username" placeholder="Username" />
-    <input type="text" name="email" placeholder="E-mail" />
-    <input type="password" name="password" placeholder="Password" />
-    <input type="password" name="password2" placeholder="Retype password" />
-
-    <input type="submit" name="signup_submit" value="Sign me up" />
-  </div>
-
-  <div class="right">
-    <span class="loginwith">Sign in with<br />social network</span>
-
-    <button class="social-signin facebook">Log in with facebook</button>
-  </div>
-  <div class="or">OR</div>
+<div *ngIf="username">
+  <app-teambuilding></app-teambuilding>
+  <div>{{username}}</div>
 </div>
+<div *ngIf="authService.checkIfIsAdmin()">
+    <div *ngFor="let u of users | async as chall">
+      <div>{{u.email}} is pending for approval ! <button (click)="approve(u.id)">Approve</button></div>
+    </div>
+</div>
+  <div *ngIf="!username">
+    <h1>Hello, world!</h1>
+    <p>Welcome to your new single-page application, built with:</p>
+    <ul>
+      <li><a href='https://get.asp.net/'>ASP.NET Core</a> and <a href='https://msdn.microsoft.com/en-us/library/67ef8sbd.aspx'>C#</a> for cross-platform server-side code</li>
+      <li><a href='https://angular.io/'>Angular</a> and <a href='http://www.typescriptlang.org/'>TypeScript</a> for client-side code</li>
+      <li><a href='http://getbootstrap.com/'>Bootstrap</a> for layout and styling</li>
+    </ul>
+  </div>

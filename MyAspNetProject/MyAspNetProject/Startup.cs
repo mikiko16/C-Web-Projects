@@ -1,10 +1,15 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MyAspNetProject.Data;
+using MyAspNetProject.models;
 
 namespace MyAspNetProject
 {
@@ -21,58 +26,24 @@ namespace MyAspNetProject
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            // In production, the Angular files will be served from this directory
+
+            services.AddScoped<ApplicationDbContext>();
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/dist";
             });
-<<<<<<< HEAD
 
-            services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseSqlServer(Configuration.GetConnectionString("IdentityConnection")));
-
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-           // services.AddDefaultIdentity<User>()
-           //     .AddEntityFrameworkStores<ApplicationDbContext>();
-=======
-=======
->>>>>>> parent of a44f7aa... Register and Login Works!!!
-=======
->>>>>>> parent of a44f7aa... Register and Login Works!!!
-=======
->>>>>>> parent of a44f7aa... Register and Login Works!!!
-            services.AddIdentity<User, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
-
-            services.Configure<IdentityOptions>(options =>
+            services.AddAuthentication().AddFacebook(facebookOptions =>
             {
-                options.Password.RequireDigit = false;
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireLowercase = false;
-                options.Password.RequireUppercase = false;
-                options.Password.RequiredLength = 4;
-            }
-            );
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> parent of a44f7aa... Register and Login Works!!!
-=======
->>>>>>> parent of a44f7aa... Register and Login Works!!!
-=======
->>>>>>> parent of a44f7aa... Register and Login Works!!!
+                facebookOptions.AppId = Configuration["Authentication:Facebook:AppId"];
+                facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
+            });
 
-           // services.AddCors();
-=======
->>>>>>> parent of 7330c2a... Added so much things !!!
-=======
+            var context = new ApplicationDbContext();
+            context.Database.Migrate();
 
-            services.AddCors();
->>>>>>> parent of a44f7aa... Register and Login Works!!!
+            services.AddDbContext<ApplicationDbContext>(options => 
+            options.UseSqlServer(DatabaseConfiguration.ConnectionString));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -88,7 +59,6 @@ namespace MyAspNetProject
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             if (!env.IsDevelopment())
@@ -114,8 +84,7 @@ namespace MyAspNetProject
 
                 if (env.IsDevelopment())
                 {
-                    spa.UseAngularCliServer(npmScript: "ng serve");
-                    //spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
+                    spa.UseAngularCliServer(npmScript: "start");
                 }
             });
         }

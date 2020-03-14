@@ -1,10 +1,7 @@
-<<<<<<< HEAD
-import { Component, OnInit } from '@angular/core';
-=======
-import { Component, OnInit, Inject, InjectionToken } from '@angular/core';
-import { RegisterModel } from '../models/RegisterModel';
+import { Component, OnInit, Inject } from '@angular/core';
+import { RegisterModel } from '../models/register';
 import { HttpClient } from '@angular/common/http';
->>>>>>> parent of a44f7aa... Register and Login Works!!!
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-registration',
@@ -13,22 +10,26 @@ import { HttpClient } from '@angular/common/http';
 })
 export class RegistrationComponent implements OnInit {
 
-  constructor() { }
+  model: RegisterModel;
+  baseUrl: string;
+  router: Router;
+
+  constructor(private http: HttpClient, @Inject('BASE_URL') baseUrls: string, router: Router) {
+    this.model = new RegisterModel("", "", "", "", "", false, false);
+    this.baseUrl = baseUrls;
+    this.router = router;
+  }
 
   ngOnInit() {
-<<<<<<< HEAD
-    console.log('Miro is here !!!');
   }
 
   submit() {
-    this.http.post(this.BASE_URL + 'api/User/Register', this.model)
-      .subscribe(result => {
-    }, error => console.error(error));
-<<<<<<< HEAD
-=======
->>>>>>> parent of 7330c2a... Added so much things !!!
-=======
->>>>>>> parent of a44f7aa... Register and Login Works!!!
-  }
+    console.log(this.model);
 
+    return this.http.post(this.baseUrl + 'api/User/Register', this.model)
+      .subscribe((result: RegisterModel) => {
+        localStorage.setItem('user', result.firstName);
+        this.router.navigateByUrl('');
+      }, error => console.error(error));
+  }
 }

@@ -17,19 +17,13 @@ namespace MyAspNetProject.Migrations
                 .HasAnnotation("ProductVersion", "3.1.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-<<<<<<< HEAD
-=======
 
-            modelBuilder.Entity("MyAspNetProject.Models.User", b =>
+            modelBuilder.Entity("MyAspNetProject.models.UserApp", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("CompanyName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ConfirmPassword")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -41,11 +35,17 @@ namespace MyAspNetProject.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsAdmin")
+                        .HasColumnType("bit");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Password")
+                    b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -53,7 +53,6 @@ namespace MyAspNetProject.Migrations
 
                     b.ToTable("Users");
                 });
->>>>>>> parent of a44f7aa... Register and Login Works!!!
 #pragma warning restore 612, 618
         }
     }

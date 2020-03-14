@@ -1,40 +1,41 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-<<<<<<< HEAD
 using System.Linq;
 using System.Threading.Tasks;
-=======
->>>>>>> parent of a44f7aa... Register and Login Works!!!
 
-namespace MyAspNetProject.Models
+namespace MyAspNetProject.models
 {
-    public class User
+    public class UserApp
     {
-        public User()
+        public UserApp()
         {
             this.Id = Guid.NewGuid().ToString();
         }
-<<<<<<< HEAD
-=======
 
         [Required]
-        public string FirstName { get; set; }
->>>>>>> parent of a44f7aa... Register and Login Works!!!
+        public string PasswordHash { get; set; }
 
         [Required]
         public string Id { get; set; }
-
-        [Required]
-        public string Name { get; set; }
-
-        [Required]
-        public string LastName { get; set; }
 
         [Required]
         public string Email { get; set; }
 
         [Required]
         public string CompanyName { get; set; }
+
+        [Required]
+        public bool IsActive { get; set; }
+
+        [Required]
+        public string FirstName { get; set; }
+
+        [Required]
+        public string LastName { get; set; }
+
+        [Required]
+        public bool IsAdmin { get; set; }
     }
 }
