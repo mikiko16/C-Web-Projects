@@ -4,22 +4,16 @@ using MyAspNetProject.models;
 
 namespace MyAspNetProject.Data
 {
-    public class ApplicationDbContext : DbContext//: IdentityDbContext<User>
+    public class ApplicationDbContext : IdentityDbContext<UserApp>
     {
-        public ApplicationDbContext(DbContextOptions options) : base(options)
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
         }
-
-        public ApplicationDbContext()
-        {
-        }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            base.OnConfiguring(optionsBuilder);
-
-            optionsBuilder.UseSqlServer(DatabaseConfiguration.ConnectionString);
-        }
-
-        public DbSet<UserApp> Users { get; set; }
+       //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+       //{
+       //    base.OnConfiguring(optionsBuilder);
+       //
+       //    optionsBuilder.UseSqlServer(DatabaseConfiguration.ConnectionString);
+       //}
     }
 }

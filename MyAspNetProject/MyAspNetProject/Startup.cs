@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
@@ -10,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MyAspNetProject.Data;
 using MyAspNetProject.models;
+using System.Web.Http.Cors;
 
 namespace MyAspNetProject
 {
@@ -28,10 +28,6 @@ namespace MyAspNetProject
             services.AddControllersWithViews();
 
             services.AddScoped<ApplicationDbContext>();
-            services.AddSpaStaticFiles(configuration =>
-            {
-                configuration.RootPath = "ClientApp/dist";
-            });
 
             services.AddAuthentication().AddFacebook(facebookOptions =>
             {
@@ -39,16 +35,29 @@ namespace MyAspNetProject
                 facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
             });
 
-            var context = new ApplicationDbContext();
-            context.Database.Migrate();
+            services.AddHealthChecks();
+
+            services.AddCors(options => {
+                options.AddPolicy("AllowAll", builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            });
 
             services.AddDbContext<ApplicationDbContext>(options => 
             options.UseSqlServer(DatabaseConfiguration.ConnectionString));
-        }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+            services.AddDefaultIdentity<UserApp>(options =>
+            {
+                options.Password.RequireDigit = false;
+                options.Password.RequireNonAlphanumeric = false;
+            })
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>();
+        }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseRouting();
+
+            app.UseCors("AllowAll");
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -59,6 +68,7 @@ namespace MyAspNetProject
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             if (!env.IsDevelopment())
@@ -66,7 +76,8 @@ namespace MyAspNetProject
                 app.UseSpaStaticFiles();
             }
 
-            app.UseRouting();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
@@ -75,18 +86,18 @@ namespace MyAspNetProject
                     pattern: "{controller}/{action=Index}/{id?}");
             });
 
-            app.UseSpa(spa =>
-            {
-                // To learn more about options for serving an Angular SPA from ASP.NET Core,
-                // see https://go.microsoft.com/fwlink/?linkid=864501
-
-                spa.Options.SourcePath = "ClientApp";
-
-                if (env.IsDevelopment())
-                {
-                    spa.UseAngularCliServer(npmScript: "start");
-                }
-            });
+            //app.UseSpa(spa =>
+            //{
+            //    // To learn more about options for serving an Angular SPA from ASP.NET Core,
+            //    // see https://go.microsoft.com/fwlink/?linkid=864501
+            //
+            //    spa.Options.SourcePath = "ClientApp";
+            //
+            //    if (env.IsDevelopment())
+            //    {
+            //        spa.UseAngularCliServer(npmScript: "start");
+            //    }
+            //});
         }
     }
 }

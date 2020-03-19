@@ -7,21 +7,12 @@ using System.Threading.Tasks;
 
 namespace MyAspNetProject.models
 {
-    public class UserApp
+    public class UserApp : IdentityUser
     {
         public UserApp()
         {
             this.Id = Guid.NewGuid().ToString();
         }
-
-        [Required]
-        public string PasswordHash { get; set; }
-
-        [Required]
-        public string Id { get; set; }
-
-        [Required]
-        public string Email { get; set; }
 
         [Required]
         public string CompanyName { get; set; }
@@ -34,8 +25,5 @@ namespace MyAspNetProject.models
 
         [Required]
         public string LastName { get; set; }
-
-        [Required]
-        public bool IsAdmin { get; set; }
     }
 }
