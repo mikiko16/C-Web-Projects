@@ -63,10 +63,14 @@ namespace MyAspNetProject.Controllers
 
         [HttpGet]
         [Authorize]
-        [Route("All")]
-        public ActionResult<IEnumerable<IdentityUser>> GetNotActiveUsers()
+        [Route("AllFromCompany")]
+        public async Task<IEnumerable<IdentityUser>> GetNotActiveUsers()
         {
-            return db.Users.ToList();
+            var userId = _caller.Claims.Single(c => c.Type == "id").Value;
+
+            var user = userManager.Users.FirstOrDefault(x => x.Id == userId);
+
+            return db.Users.Where(x => x.CompanyName == user.CompanyName);
         }
 
         [HttpPost]
@@ -80,8 +84,6 @@ namespace MyAspNetProject.Controllers
 
             if (result.Succeeded)
             {
-                //var user = await userManager.FindByNameAsync(model.Email);
-
                 var isAdmin = await userManager.IsInRoleAsync(this.userToVerify, "Admin");
 
                 var jwt = await Tokens.GenerateJwt(identity, _jwtFactory, model.Email, _jwtOptions, new JsonSerializerSettings { Formatting = Formatting.Indented }, isAdmin);
@@ -123,14 +125,14 @@ namespace MyAspNetProject.Controllers
         }
 
         [HttpPost]
-        [Authorize ( Policy = "ApiUser")]
+        [Authorize]
         [Route("Logout")]
 
         public async Task<IActionResult> Logout()
         {
-           // await this.signInManager.SignOutAsync();
+            await this.signInManager.SignOutAsync();
 
-            return Ok("Miro is the best !!!");
+            return Ok();
         }
 
         private async Task<ClaimsIdentity> GetClaimsIdentity(string userName, string password)
