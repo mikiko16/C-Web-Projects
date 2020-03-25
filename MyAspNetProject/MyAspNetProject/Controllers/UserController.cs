@@ -48,29 +48,18 @@ namespace MyAspNetProject.Controllers
             this._caller = httpContextAccessor.HttpContext.User;
         }
 
-        [HttpPut]
-        [Route("{id}")]
-        public ActionResult<IEnumerable<IdentityUser>> UpdateUserState(string id)
-        {
-            var user = db.Users.FirstOrDefault(x => x.Id == id);
-            user.LockoutEnabled = true;
-            db.SaveChanges();
-
-            var notActiveUsers = db.Users.Where(x => x.LockoutEnabled == false).ToList();
-            return notActiveUsers;
-        }
-
 
         [HttpGet]
         [Authorize]
         [Route("AllFromCompany")]
-        public async Task<IEnumerable<IdentityUser>> GetNotActiveUsers()
+        public async Task<IEnumerable<UserApp>> GetUsersFromCompany()
         {
-            var userId = _caller.Claims.Single(c => c.Type == "id").Value;
+            UserApp user = await userManager.FindByIdAsync(_caller.Claims.Single(c => c.Type == "id").Value);
 
-            var user = userManager.Users.FirstOrDefault(x => x.Id == userId);
+            var users = userManager.Users
+                .Where(x => x.CompanyName == user.CompanyName && x.IsActive == false).ToList();
 
-            return db.Users.Where(x => x.CompanyName == user.CompanyName);
+            return users;
         }
 
         [HttpPost]
@@ -97,14 +86,14 @@ namespace MyAspNetProject.Controllers
         [Route("Register")]
         public async Task<IActionResult> PostRegister(UserApp model)
         {
-            bool hasCompany = db.Users.Any(x => x.CompanyName == model.CompanyName);
+            bool hasCompany = db.Users.Any(x => x.CompanyName == model.CompanyName.ToUpper());
 
             var newUser = new UserApp
             {
                 Email = model.Email,
                 UserName = model.Email,
                 FirstName = model.FirstName,
-                CompanyName = model.CompanyName,
+                CompanyName = model.CompanyName.ToUpper(),
                 LastName = model.LastName,
                 EmailConfirmed = true,
                 IsActive = false
@@ -117,9 +106,8 @@ namespace MyAspNetProject.Controllers
                 if (!hasCompany)
                 {
                     var res = await userManager.AddToRoleAsync(newUser, "Admin");
-                    return Ok(res);
                 }
-                return new OkObjectResult("Account Created");
+                return Ok();
             }
             return BadRequest(result);
         }
