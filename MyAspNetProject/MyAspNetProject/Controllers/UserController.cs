@@ -25,7 +25,6 @@ namespace MyAspNetProject.Controllers
         private readonly ApplicationDbContext db;
         private readonly UserManager<UserApp> userManager;
         private readonly SignInManager<UserApp> signInManager;
-        private readonly RoleManager<IdentityRole> roleManager;
         private readonly IJwtFactory _jwtFactory;
         private readonly JwtIssuerOptions _jwtOptions;
         private readonly ClaimsPrincipal _caller;
@@ -34,7 +33,6 @@ namespace MyAspNetProject.Controllers
         public UserController(ApplicationDbContext db,
                               UserManager<UserApp> userManager,
                               SignInManager<UserApp> signInManager,
-                              RoleManager<IdentityRole> roleManager,
                               IJwtFactory jwtFactory,
                               IOptions<JwtIssuerOptions> jwtOptions,
                               IHttpContextAccessor httpContextAccessor)
@@ -42,7 +40,6 @@ namespace MyAspNetProject.Controllers
             this.db = db;
             this.userManager = userManager;
             this.signInManager = signInManager;
-            this.roleManager = roleManager;
             this._jwtFactory = jwtFactory;
             this._jwtOptions = jwtOptions.Value;
             this._caller = httpContextAccessor.HttpContext.User;
@@ -50,7 +47,7 @@ namespace MyAspNetProject.Controllers
 
 
         [HttpGet]
-        [Authorize]
+        [Authorize (Policy = "ApiUser")]
         [Route("AllFromCompany")]
         public async Task<IEnumerable<UserApp>> GetUsersFromCompany()
         {

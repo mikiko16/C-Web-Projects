@@ -48,20 +48,22 @@ namespace MyAspNetProject
 
             services.Configure<JwtIssuerOptions>(options =>
             {
-                options.Issuer = jwtAppSettingOptions[nameof(JwtIssuerOptions.Issuer)];
-                options.Audience = jwtAppSettingOptions[nameof(JwtIssuerOptions.Audience)];
+                options.Issuer = "Issuer";
+                options.Audience = "Audience";
                 options.SigningCredentials = new SigningCredentials(_signingKey, SecurityAlgorithms.HmacSha256);
             });
 
             var tokenValidationParameters = new TokenValidationParameters
             {
-                ValidateIssuer = false,
-                ValidIssuer = jwtAppSettingOptions[nameof(JwtIssuerOptions.Issuer)],
+                ValidateIssuer = true,
+                ValidIssuer = "Issuer",
+                //jwtAppSettingOptions[nameof(JwtIssuerOptions.Issuer)],
 
-                ValidateAudience = false,
-                ValidAudience = jwtAppSettingOptions[nameof(JwtIssuerOptions.Audience)],
+                ValidateAudience = true,
+                ValidAudience = "Audience",
+                //jwtAppSettingOptions[nameof(JwtIssuerOptions.Audience)],
 
-                ValidateIssuerSigningKey = true,
+            ValidateIssuerSigningKey = true,
                 IssuerSigningKey = _signingKey,
 
                 RequireExpirationTime = false,
@@ -128,17 +130,6 @@ namespace MyAspNetProject
 
             app.UseCors("AllowAll");
 
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
-
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             if (!env.IsDevelopment())
@@ -156,18 +147,7 @@ namespace MyAspNetProject
                     pattern: "{controller}/{action=Index}/{id?}");
             });
 
-            //app.UseSpa(spa =>
-            //{
-            //    // To learn more about options for serving an Angular SPA from ASP.NET Core,
-            //    // see https://go.microsoft.com/fwlink/?linkid=864501
-            //
-            //    spa.Options.SourcePath = "ClientApp";
-            //
-            //    if (env.IsDevelopment())
-            //    {
-            //        spa.UseAngularCliServer(npmScript: "start");
-            //    }
-            //});
+            //app.ApplyMigrations();
         }
     }
 }

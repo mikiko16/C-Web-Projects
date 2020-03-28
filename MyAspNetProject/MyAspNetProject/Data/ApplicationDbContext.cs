@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using MyAspNetProject.models;
+using MyAspNetProject.Models;
 
 namespace MyAspNetProject.Data
 {
@@ -8,12 +9,19 @@ namespace MyAspNetProject.Data
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
+
         }
-       //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-       //{
-       //    base.OnConfiguring(optionsBuilder);
-       //
-       //    optionsBuilder.UseSqlServer(DatabaseConfiguration.ConnectionString);
-       //}
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    base.OnConfiguring(optionsBuilder);
+        //
+        //    optionsBuilder.UseSqlServer(DatabaseConfiguration.ConnectionString);
+        //}
+
+        public DbSet<TeamBuilding> TeamBuilding { get; set; }
+
+        public DbSet<ThingsNeeded> ThingsNedded { get; set; }
+
+        public DbSet<Pictures> Pictures { get; set; }
     }
 }

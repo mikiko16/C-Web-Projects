@@ -10,7 +10,7 @@ using MyAspNetProject.Data;
 namespace MyAspNetProject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200315183305_InitialCreate")]
+    [Migration("20200328201215_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -156,6 +156,60 @@ namespace MyAspNetProject.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("MyAspNetProject.Models.Pictures", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Link")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TeamBuildingId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TeamBuildingId");
+
+                    b.ToTable("Pictures");
+                });
+
+            modelBuilder.Entity("MyAspNetProject.Models.TeamBuilding", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("CreatorId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Location")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TeamBuilding");
+                });
+
+            modelBuilder.Entity("MyAspNetProject.Models.ThingsNeeded", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("TeamBuildingId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("UserAppId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TeamBuildingId");
+
+                    b.ToTable("ThingsNedded");
+                });
+
             modelBuilder.Entity("MyAspNetProject.models.UserApp", b =>
                 {
                     b.Property<string>("Id")
@@ -216,6 +270,9 @@ namespace MyAspNetProject.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("TeamBuildingId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
@@ -232,6 +289,8 @@ namespace MyAspNetProject.Migrations
                         .IsUnique()
                         .HasName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.HasIndex("TeamBuildingId");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -285,6 +344,27 @@ namespace MyAspNetProject.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("MyAspNetProject.Models.Pictures", b =>
+                {
+                    b.HasOne("MyAspNetProject.Models.TeamBuilding", null)
+                        .WithMany("PicturesIDs")
+                        .HasForeignKey("TeamBuildingId");
+                });
+
+            modelBuilder.Entity("MyAspNetProject.Models.ThingsNeeded", b =>
+                {
+                    b.HasOne("MyAspNetProject.Models.TeamBuilding", null)
+                        .WithMany("Things")
+                        .HasForeignKey("TeamBuildingId");
+                });
+
+            modelBuilder.Entity("MyAspNetProject.models.UserApp", b =>
+                {
+                    b.HasOne("MyAspNetProject.Models.TeamBuilding", null)
+                        .WithMany("Users")
+                        .HasForeignKey("TeamBuildingId");
                 });
 #pragma warning restore 612, 618
         }
