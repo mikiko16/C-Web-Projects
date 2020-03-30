@@ -26,6 +26,7 @@ namespace MyAspNetProject.Controllers
         private readonly UserManager<UserApp> userManager;
         private readonly SignInManager<UserApp> signInManager;
         private readonly IJwtFactory _jwtFactory;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly JwtIssuerOptions _jwtOptions;
         private readonly ClaimsPrincipal _caller;
         UserApp userToVerify;
@@ -35,12 +36,14 @@ namespace MyAspNetProject.Controllers
                               SignInManager<UserApp> signInManager,
                               IJwtFactory jwtFactory,
                               IOptions<JwtIssuerOptions> jwtOptions,
-                              IHttpContextAccessor httpContextAccessor)
+                              IHttpContextAccessor httpContextAccessor,
+                              RoleManager<IdentityRole> roleManager)
         {
             this.db = db;
             this.userManager = userManager;
             this.signInManager = signInManager;
             this._jwtFactory = jwtFactory;
+            this._roleManager = roleManager;
             this._jwtOptions = jwtOptions.Value;
             this._caller = httpContextAccessor.HttpContext.User;
         }
@@ -93,7 +96,7 @@ namespace MyAspNetProject.Controllers
                 CompanyName = model.CompanyName.ToUpper(),
                 LastName = model.LastName,
                 EmailConfirmed = true,
-                IsActive = false
+                IsActive = !hasCompany
             };
 
             var result = await this.userManager.CreateAsync(newUser, model.PasswordHash);
@@ -102,8 +105,13 @@ namespace MyAspNetProject.Controllers
             {
                 if (!hasCompany)
                 {
-                    var res = await userManager.AddToRoleAsync(newUser, "Admin");
+                    await userManager.AddToRoleAsync(newUser, "Admin");
                 }
+                else
+                {
+                    await userManager.AddToRoleAsync(newUser, "User");
+                }
+
                 return Ok();
             }
             return BadRequest(result);

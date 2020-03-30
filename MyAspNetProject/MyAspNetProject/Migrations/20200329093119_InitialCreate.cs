@@ -27,7 +27,8 @@ namespace MyAspNetProject.Migrations
                 {
                     Id = table.Column<string>(nullable: false),
                     Location = table.Column<string>(nullable: false),
-                    CreatorId = table.Column<string>(nullable: false)
+                    CreatorId = table.Column<string>(nullable: false),
+                    Date = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {

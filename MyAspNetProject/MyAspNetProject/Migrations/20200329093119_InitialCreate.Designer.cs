@@ -10,7 +10,7 @@ using MyAspNetProject.Data;
 namespace MyAspNetProject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200328201215_InitialCreate")]
+    [Migration("20200329093119_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -182,6 +182,9 @@ namespace MyAspNetProject.Migrations
                     b.Property<string>("CreatorId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Location")
                         .IsRequired()

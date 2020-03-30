@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MyAspNetProject.Data;
@@ -9,6 +10,7 @@ using SendGrid.Helpers.Mail;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace MyAspNetProject.Controllers
@@ -20,11 +22,15 @@ namespace MyAspNetProject.Controllers
     {
         private readonly ApplicationDbContext db;
         private readonly UserManager<UserApp> _userManager;
+        private readonly ClaimsPrincipal _caller;
 
-        public TeamBuildingController(ApplicationDbContext db, UserManager<UserApp> userManager)
+        public TeamBuildingController(ApplicationDbContext db,
+                                      UserManager<UserApp> userManager,
+                                      IHttpContextAccessor httpContextAccessor)
         {
             this.db = db;
             this._userManager = userManager;
+            this._caller = httpContextAccessor.HttpContext.User;
         }
 
         [HttpPut]
@@ -55,6 +61,19 @@ namespace MyAspNetProject.Controllers
             var allUsers = db.Users.Where(x => x.CompanyName == user.CompanyName && x.IsActive == false).ToList();
 
             return allUsers;
+        }
+
+        [HttpGet]
+        [Authorize(Policy = "ApiUser")]
+        [Route("AllWithoutAdmin")]
+        public async Task<IEnumerable<UserApp>> GetUsersFromCompany()
+        {
+            UserApp user = await _userManager.FindByIdAsync(_caller.Claims.Single(c => c.Type == "id").Value);
+
+            var users = _userManager.Users
+                .Where(x => x.CompanyName == user.CompanyName && x.Id != user.Id && x.IsActive == true).ToList();
+
+            return users;
         }
 
         static async Task Execute(string email, string name)

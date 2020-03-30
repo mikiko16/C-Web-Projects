@@ -82,8 +82,6 @@ namespace MyAspNetProject
                 configureOptions.SaveToken = true;
             });
 
-            //services.AddDataAnnotations();
-
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("ApiUser", policy => policy.RequireClaim(Constants.Strings.JwtClaimIdentifiers.Rol, Constants.Strings.JwtClaims.ApiAccess));
@@ -111,7 +109,7 @@ namespace MyAspNetProject
             builder = new IdentityBuilder(builder.UserType, typeof(IdentityRole), builder.Services);
             builder.AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
 
-            services.AddDbContext<ApplicationDbContext>(options => 
+            services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(DatabaseConfiguration.ConnectionString));
 
             services.AddDefaultIdentity<UserApp>(options =>
@@ -124,7 +122,7 @@ namespace MyAspNetProject
 
             //services.AddMvc().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
         }
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ApplicationDbContext db)
         {
             app.UseRouting();
 
@@ -147,7 +145,7 @@ namespace MyAspNetProject
                     pattern: "{controller}/{action=Index}/{id?}");
             });
 
-            //app.ApplyMigrations();
+            db.Database.Migrate();
         }
     }
 }

@@ -29,5 +29,8 @@ namespace MyAspNetProject.Models
 
         [Required]
         public string CreatorId { get; set; }
+
+        [Required]
+        public DateTime Date { get; set; }
     }
 }
