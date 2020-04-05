@@ -8,6 +8,6 @@ namespace MyAspNetProject.Data
     public class DatabaseConfiguration
     {
         public const string ConnectionString =
-           "Server=DESKTOP-5BOK8LI\\MSSQLSERVER01;Database=MyAspNetProject;Trusted_Connection=True;";
+           "Server=DESKTOP-8GEA7VB\\SQLEXPRESS;Database=MyAspNetProject;Trusted_Connection=True;";
     }
 }

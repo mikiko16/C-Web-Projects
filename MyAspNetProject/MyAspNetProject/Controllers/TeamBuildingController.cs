@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MyAspNetProject.Data;
 using MyAspNetProject.models;
+using MyAspNetProject.Models;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 using System;
@@ -61,6 +62,27 @@ namespace MyAspNetProject.Controllers
             var allUsers = db.Users.Where(x => x.CompanyName == user.CompanyName && x.IsActive == false).ToList();
 
             return allUsers;
+        }
+
+        [HttpPost]
+        [Authorize(Policy = "ApiUser")]
+        [Route("create")]
+      
+        public async Task<TeamBuilding> CreateTeamBuilding(TeamBuilding model)
+        {
+            UserApp user = await _userManager.FindByIdAsync(model.CreatorId);
+
+            var teamBuilding = new TeamBuilding
+            {
+                Location = model.Location,
+                CreatorId = model.CreatorId,
+                Date = model.Date
+            };
+
+            var team = db.TeamBuilding.Add(teamBuilding);
+            await db.SaveChangesAsync();
+
+            return teamBuilding;
         }
 
         [HttpGet]

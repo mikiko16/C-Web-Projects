@@ -16,12 +16,10 @@ namespace MyAspNetProject.Models
         [Required]
         public string Id { get; set; }
 
-        [Required]
         public ThingsNeeded[] Things { get; set; }
 
         public Pictures[] PicturesIDs { get; set; }
 
-        [Required]
         public UserApp[] Users { get; set; }
 
         [Required]
