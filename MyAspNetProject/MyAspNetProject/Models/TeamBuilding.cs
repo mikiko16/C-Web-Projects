@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,7 +17,10 @@ namespace MyAspNetProject.Models
         [Required]
         public string Id { get; set; }
 
-        public ThingsNeeded[] Things { get; set; }
+        [NotMapped]
+        public string[] Things { get; set; }
+
+        public ThingsNeeded[] ThingsNeeded { get; set; }
 
         public Pictures[] PicturesIDs { get; set; }
 

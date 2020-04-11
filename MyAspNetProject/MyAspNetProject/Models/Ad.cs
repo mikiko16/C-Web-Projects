@@ -6,18 +6,24 @@ using System.Threading.Tasks;
 
 namespace MyAspNetProject.Models
 {
-    public class Pictures
+    public class Ad
     {
-        public Pictures()
+        public Ad()
         {
             this.Id = Guid.NewGuid().ToString();
         }
-
         [Required]
         public string Id { get; set; }
 
-        public string Link { get; set; }
+        [Required]
+        public string UserId { get; set; }
 
-        public string TeamBuildingId { get; set; }
+        [Required]
+        public string Text { get; set; }
+
+        [Required]
+        public string Title { get; set; }
+
+        public Pictures[] Pictures { get; set; }
     }
 }

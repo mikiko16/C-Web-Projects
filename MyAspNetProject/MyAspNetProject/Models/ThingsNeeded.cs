@@ -16,6 +16,9 @@ namespace MyAspNetProject.Models
         [Required]
         public string Id { get; set; }
 
+        [Required]
+        public string Name { get; set; }
+
         public string TeamBuildingId { get; set; }
 
         public string UserAppId { get; set; }

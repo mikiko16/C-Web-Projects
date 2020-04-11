@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyAspNetProject.Data;
 
 namespace MyAspNetProject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200406163446_SecondMigration")]
+    partial class SecondMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -198,10 +200,6 @@ namespace MyAspNetProject.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("TeamBuildingId")
                         .HasColumnType("nvarchar(450)");
 
@@ -361,7 +359,7 @@ namespace MyAspNetProject.Migrations
             modelBuilder.Entity("MyAspNetProject.Models.ThingsNeeded", b =>
                 {
                     b.HasOne("MyAspNetProject.Models.TeamBuilding", null)
-                        .WithMany("ThingsNeeded")
+                        .WithMany("Things")
                         .HasForeignKey("TeamBuildingId");
                 });
 

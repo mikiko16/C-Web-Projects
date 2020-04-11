@@ -2,10 +2,12 @@ using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using MyAspNetProject.Data;
@@ -13,6 +15,7 @@ using MyAspNetProject.Helpers;
 using MyAspNetProject.JWT;
 using MyAspNetProject.models;
 using System;
+using System.IO;
 using System.Text;
 
 namespace MyAspNetProject
@@ -63,7 +66,7 @@ namespace MyAspNetProject
                 ValidAudience = "Audience",
                 //jwtAppSettingOptions[nameof(JwtIssuerOptions.Audience)],
 
-            ValidateIssuerSigningKey = true,
+                ValidateIssuerSigningKey = true,
                 IssuerSigningKey = _signingKey,
 
                 RequireExpirationTime = false,
@@ -90,7 +93,8 @@ namespace MyAspNetProject
             services.AddHealthChecks();
 
             services.AddCors(options => {
-                options.AddPolicy("AllowAll", builder => builder
+                options.AddPolicy("AllowAll", 
+                builder => builder
                 .AllowAnyOrigin()
                 .AllowAnyMethod()
                 .AllowAnyHeader());
@@ -130,6 +134,13 @@ namespace MyAspNetProject
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"Resources")),
+                RequestPath = new PathString("/Resources")
+            });
+
             if (!env.IsDevelopment())
             {
                 app.UseSpaStaticFiles();
