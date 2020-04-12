@@ -17,7 +17,5 @@ namespace MyAspNetProject.Models
         public string Id { get; set; }
 
         public string Link { get; set; }
-
-        public string TeamBuildingId { get; set; }
     }
 }

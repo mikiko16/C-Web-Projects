@@ -22,5 +22,7 @@ namespace MyAspNetProject.Data
         public DbSet<ThingsNeeded> ThingsNedded { get; set; }
 
         public DbSet<Pictures> Pictures { get; set; }
+
+        public DbSet<Ad> Ad { get; set; }
     }
 }

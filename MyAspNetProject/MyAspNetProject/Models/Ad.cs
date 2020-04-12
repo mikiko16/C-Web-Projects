@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -15,7 +16,6 @@ namespace MyAspNetProject.Models
         [Required]
         public string Id { get; set; }
 
-        [Required]
         public string UserId { get; set; }
 
         [Required]
@@ -24,6 +24,6 @@ namespace MyAspNetProject.Models
         [Required]
         public string Title { get; set; }
 
-        public Pictures[] Pictures { get; set; }
+        public string Link{ get; set; }
     }
 }

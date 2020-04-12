@@ -24,21 +24,15 @@ namespace MyAspNetProject.Controllers
     public class ThingsController : Controller
     {
         private readonly ApplicationDbContext db;
-        private readonly UserManager<UserApp> _userManager;
-        private readonly ClaimsPrincipal _caller;
 
-        public ThingsController(ApplicationDbContext db,
-                                UserManager<UserApp> userManager,
-                                IHttpContextAccessor httpContextAccessor)
+        public ThingsController(ApplicationDbContext db)
         {
             this.db = db;
-            this._userManager = userManager;
-            this._caller = httpContextAccessor.HttpContext.User;
         }
 
         [HttpPost]
         [Authorize(Policy = "ApiUser")]
-        [Route("createThing")]
+        [Route("createAd")]
         public async Task<IEnumerable<ThingsNeeded>> createThing(ThingsNeeded model)
         {
             //UserApp user = await _userManager.FindByIdAsync(_caller.Claims.Single(c => c.Type == "id").Value);
@@ -56,33 +50,6 @@ namespace MyAspNetProject.Controllers
             var things = db.ThingsNedded.Where(x => x.TeamBuildingId == model.TeamBuildingId && x.UserAppId == model.UserAppId);
 
             return things;
-        }
-
-        [HttpPost]
-       // [Authorize(Policy = "ApiUser")]
-        [Route("uploadImage")]
-        public async Task<string> UploadProfilePicture(IFormFile Image)
-        {
-            if (Image == null || Image.Length == 0)
-                throw new Exception("Please select profile picture");
-
-            var folderName = Path.Combine("Resources", "ProfilePics");
-            var filePath = Path.Combine(Directory.GetCurrentDirectory(), folderName);
-
-            if (!Directory.Exists(filePath))
-            {
-                Directory.CreateDirectory(filePath);
-            }
-
-            var uniqueFileName = "_profilepic.png";
-            var dbPath = Path.Combine(folderName, uniqueFileName);
-
-            using (var fileStream = new FileStream(Path.Combine(filePath, uniqueFileName), FileMode.Create))
-            {
-                await Image.CopyToAsync(fileStream);
-            }
-
-            return dbPath;
         }
     }
 }

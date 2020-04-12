@@ -8,6 +8,21 @@ namespace MyAspNetProject.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Ad",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    UserId = table.Column<string>(nullable: false),
+                    Text = table.Column<string>(nullable: false),
+                    Title = table.Column<string>(nullable: false),
+                    Link = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Ad", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
                 {
@@ -116,6 +131,7 @@ namespace MyAspNetProject.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(nullable: false),
                     TeamBuildingId = table.Column<string>(nullable: true),
                     UserAppId = table.Column<string>(nullable: true)
                 },
@@ -272,6 +288,9 @@ namespace MyAspNetProject.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Ad");
+
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
