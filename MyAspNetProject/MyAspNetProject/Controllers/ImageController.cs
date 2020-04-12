@@ -31,15 +31,15 @@ namespace MyAspNetProject.Controllers
         [Route("uploadImage")]
         public async Task<string> UploadProfilePicture(IFormFile Image)
         {
-            Account account = new Account(
-              "mikiko16",
-              "686516265985614",
-              "cyjH_KBR9Djp3oOQhUWGcKr3FWg");
-
-            Cloudinary cloudinary = new Cloudinary(account);
-
             if (Image == null || Image.Length == 0)
                 throw new Exception("Please select profile picture");
+
+            Account account = new Account(
+             "mikiko16",
+             "686516265985614",
+             "cyjH_KBR9Djp3oOQhUWGcKr3FWg");
+
+            Cloudinary cloudinary = new Cloudinary(account);
 
             var folderName = Path.Combine("Resources", "ProfilePics");
             var filePath = Path.Combine(Directory.GetCurrentDirectory(), folderName);
@@ -54,10 +54,6 @@ namespace MyAspNetProject.Controllers
             var uniqueFileName = $"{picture.Id}.jpeg";
             var dbPath = Path.Combine(folderName, uniqueFileName);
 
-            //picture.Link = dbPath;
-            //db.Pictures.Add(picture);
-            //db.SaveChanges();
-
             using (var fileStream = new FileStream(Path.Combine(filePath, uniqueFileName), FileMode.Create))
             {
                 await Image.CopyToAsync(fileStream);
@@ -69,6 +65,7 @@ namespace MyAspNetProject.Controllers
                 PublicId = picture.Id,
                 Overwrite = true
             };
+
             var uploadResult = cloudinary.Upload(uploadParams);
 
             picture.Link = uploadResult.SecureUri.ToString();

@@ -25,5 +25,11 @@ namespace MyAspNetProject.models
 
         [Required]
         public string LastName { get; set; }
+
+        public long FacebookId { get; set; }
+
+        public string AccessToken { get; set; }
+
+        public string PictureUrl { get; set; }
     }
 }
