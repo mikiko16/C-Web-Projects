@@ -47,5 +47,13 @@ namespace MyAspNetProject.Controllers
 
             return ad;
        }
+
+        [HttpGet]
+        [Authorize(Policy = "ApiUser")]
+        [Route("getAllAds")]
+        public async Task<IEnumerable<Ad>> GetAllAds()
+        {
+            return db.Ad.ToList();
+        }
     }
 }

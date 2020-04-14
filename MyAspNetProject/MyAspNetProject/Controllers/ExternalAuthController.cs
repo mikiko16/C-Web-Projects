@@ -25,15 +25,22 @@ namespace MyAspNetProject.Controllers
         private readonly UserManager<UserApp> _userManager;
         private readonly FacebookAuthSettings _fbAuthSettings;
         private readonly IJwtFactory _jwtFactory;
+        private readonly RoleManager<IdentityRole> roleManager;
         private readonly JwtIssuerOptions _jwtOptions;
         private static readonly HttpClient Client = new HttpClient();
 
-        public ExternalAuthController(IOptions<FacebookAuthSettings> fbAuthSettingsAccessor, UserManager<UserApp> userManager, ApplicationDbContext appDbContext, IJwtFactory jwtFactory, IOptions<JwtIssuerOptions> jwtOptions)
+        public ExternalAuthController(IOptions<FacebookAuthSettings> fbAuthSettingsAccessor,
+                                      UserManager<UserApp> userManager,
+                                      ApplicationDbContext appDbContext, 
+                                      IJwtFactory jwtFactory, 
+                                      IOptions<JwtIssuerOptions> jwtOptions,
+                                      RoleManager<IdentityRole> roleManager)
         {
             _fbAuthSettings = fbAuthSettingsAccessor.Value;
             _userManager = userManager;
             _appDbContext = appDbContext;
             _jwtFactory = jwtFactory;
+            this.roleManager = roleManager;
             _jwtOptions = jwtOptions.Value;
         }
 
@@ -74,9 +81,6 @@ namespace MyAspNetProject.Controllers
                 var result = await _userManager.CreateAsync(appUser, Convert.ToBase64String(Guid.NewGuid().ToByteArray()).Substring(0, 8));
 
                 if (!result.Succeeded) return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
-
-               // await _appDbContext.Customers.AddAsync(new Customer { IdentityId = appUser.Id, Location = "", Locale = userInfo.Locale, Gender = userInfo.Gender });
-               // await _appDbContext.SaveChangesAsync();
             }
 
             // generate the jwt for the local user...
@@ -87,7 +91,7 @@ namespace MyAspNetProject.Controllers
                 return BadRequest(Errors.AddErrorToModelState("login_failure", "Failed to create local user account.", ModelState));
             }
 
-            bool isAdmin = false;
+            var isAdmin = await _userManager.IsInRoleAsync(user, "Admin");
 
             var jwt = await Tokens.GenerateJwt(_jwtFactory.GenerateClaimsIdentity(localUser.UserName, localUser.Id),
               _jwtFactory, localUser.UserName, _jwtOptions, new JsonSerializerSettings { Formatting = Formatting.Indented }, isAdmin);

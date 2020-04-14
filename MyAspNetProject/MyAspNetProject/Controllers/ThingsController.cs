@@ -32,7 +32,7 @@ namespace MyAspNetProject.Controllers
 
         [HttpPost]
         [Authorize(Policy = "ApiUser")]
-        [Route("createAd")]
+        [Route("createThing")]
         public async Task<IEnumerable<ThingsNeeded>> createThing(ThingsNeeded model)
         {
             //UserApp user = await _userManager.FindByIdAsync(_caller.Claims.Single(c => c.Type == "id").Value);
