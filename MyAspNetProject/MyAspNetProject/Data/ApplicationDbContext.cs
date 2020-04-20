@@ -11,6 +11,11 @@ namespace MyAspNetProject.Data
         {
         }
 
+        public ApplicationDbContext()
+        {
+
+        }
+
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         //{
         //    base.OnConfiguring(optionsBuilder);

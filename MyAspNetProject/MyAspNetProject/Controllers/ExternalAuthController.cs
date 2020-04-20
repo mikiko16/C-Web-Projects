@@ -23,20 +23,17 @@ namespace MyAspNetProject.Controllers
     {
         private readonly ApplicationDbContext _appDbContext;
         private readonly UserManager<UserApp> _userManager;
-        private readonly FacebookAuthSettings _fbAuthSettings;
         private readonly IJwtFactory _jwtFactory;
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly JwtIssuerOptions _jwtOptions;
         private static readonly HttpClient Client = new HttpClient();
 
-        public ExternalAuthController(IOptions<FacebookAuthSettings> fbAuthSettingsAccessor,
-                                      UserManager<UserApp> userManager,
+        public ExternalAuthController(UserManager<UserApp> userManager,
                                       ApplicationDbContext appDbContext, 
                                       IJwtFactory jwtFactory, 
                                       IOptions<JwtIssuerOptions> jwtOptions,
                                       RoleManager<IdentityRole> roleManager)
         {
-            _fbAuthSettings = fbAuthSettingsAccessor.Value;
             _userManager = userManager;
             _appDbContext = appDbContext;
             _jwtFactory = jwtFactory;

@@ -9,11 +9,14 @@ using MyAspNetProject.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 using Newtonsoft.Json;
 using System.Security.Claims;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using System;
 
 namespace MyAspNetProject.Controllers
 {
@@ -30,7 +33,6 @@ namespace MyAspNetProject.Controllers
         private readonly JwtIssuerOptions _jwtOptions;
         private readonly ClaimsPrincipal _caller;
         UserApp userToVerify;
-
         public UserController(ApplicationDbContext db,
                               UserManager<UserApp> userManager,
                               SignInManager<UserApp> signInManager,
@@ -66,6 +68,11 @@ namespace MyAspNetProject.Controllers
         [Route("Login")]
         public async Task<ActionResult> Login(LoginUser model)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
             var result = await this.signInManager.PasswordSignInAsync(model.Email,
                 model.PasswordHash, true, false);
 
@@ -86,6 +93,11 @@ namespace MyAspNetProject.Controllers
         [Route("Register")]
         public async Task<IActionResult> PostRegister(UserApp model)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
             bool hasCompany = db.Users.Any(x => x.CompanyName == model.CompanyName.ToUpper());
 
             var newUser = new UserApp
@@ -99,7 +111,7 @@ namespace MyAspNetProject.Controllers
                 IsActive = !hasCompany
             };
 
-            var result = await this.userManager.CreateAsync(newUser, model.PasswordHash);
+            var result = await userManager.CreateAsync(newUser, model.PasswordHash);
 
             if (result.Succeeded)
             {
@@ -128,6 +140,22 @@ namespace MyAspNetProject.Controllers
             return Ok();
         }
 
+        [HttpPut]
+        [Authorize]
+        [Route("update/{id}")]
+        public async Task<IEnumerable<UserApp>> UpdateUserState(string id)
+        {
+            var user = db.Users.FirstOrDefault(x => x.Id == id);
+            user.IsActive = true;
+            db.SaveChanges();
+
+            var notActiveUsers = db.Users.Where(x => x.CompanyName == user.CompanyName && x.IsActive == false).ToList();
+
+            await Execute(user.Email, user.FirstName);
+
+            return notActiveUsers;
+        }
+
         private async Task<ClaimsIdentity> GetClaimsIdentity(string userName, string password)
         {
             if (string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(password))
@@ -146,6 +174,18 @@ namespace MyAspNetProject.Controllers
 
             // Credentials are invalid, or account doesn't exist
             return await Task.FromResult<ClaimsIdentity>(null);
+        }
+        static async Task Execute(string email, string name)
+        {
+            var apiKey = Environment.GetEnvironmentVariable("MySendGrid");
+            var client = new SendGridClient(apiKey);
+            var from = new EmailAddress("mikiko16@abv.bg", "Email for confirmation !");
+            var subject = $"Welcome to our application, {name} !";
+            var to = new EmailAddress(email, name);
+            var plainTextContent = "and Miro is the best !!!";
+            var htmlContent = "<strong>Your request has been approved! Enjoy our application!</strong>";
+            var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
+            var response = await client.SendEmailAsync(msg);
         }
     }
 }
