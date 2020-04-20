@@ -22,12 +22,14 @@ namespace MyAspNetProject.Models
 
         public ThingsNeeded[] ThingsNeeded { get; set; }
 
-        public Pictures[] PicturesIDs { get; set; }
+        public ICollection<Pictures> PicturesIDs { get; set; }
 
         public UserApp[] Users { get; set; }
 
         [Required]
         public string Location { get; set; }
+
+        public string CompanyName { get; set; }
 
         [Required]
         public string CreatorId { get; set; }

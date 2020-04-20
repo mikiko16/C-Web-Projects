@@ -29,10 +29,12 @@ namespace MyAspNetProject.Controllers
         [HttpPost]
         [Authorize(Policy = "ApiUser")]
         [Route("uploadImage")]
-        public async Task<string> UploadProfilePicture(IFormFile Image)
+        public async Task<string> UploadProfilePicture(IFormFile Image, IFormCollection data)
         {
             if (Image == null || Image.Length == 0)
                 throw new Exception("Please select profile picture");
+
+            var id = data["Id"];
 
             Account account = new Account(
              "mikiko16",
@@ -73,6 +75,13 @@ namespace MyAspNetProject.Controllers
             db.SaveChanges();
 
             return picture.Link;
+
+            //picture.Link = uploadResult.SecureUri.ToString();
+            //picture.TeamBuildingId = id.ToString();
+            //db.Pictures.Add(picture);
+            //db.SaveChanges();
+            //
+            //return db.Pictures.Where(x => x.TeamBuildingId == id);
         }
     }
 }

@@ -35,8 +35,6 @@ namespace MyAspNetProject.Controllers
         [Route("createThing")]
         public async Task<IEnumerable<ThingsNeeded>> createThing(ThingsNeeded model)
         {
-            //UserApp user = await _userManager.FindByIdAsync(_caller.Claims.Single(c => c.Type == "id").Value);
-
             ThingsNeeded thing = new ThingsNeeded
             {
                 Name = model.Name,
@@ -48,6 +46,16 @@ namespace MyAspNetProject.Controllers
             db.SaveChanges();
 
             var things = db.ThingsNedded.Where(x => x.TeamBuildingId == model.TeamBuildingId && x.UserAppId == model.UserAppId);
+
+            return things;
+        }
+
+        [HttpGet]
+        [Authorize(Policy = "ApiUser")]
+        [Route("getThings/{id}")]
+        public async Task<IEnumerable<ThingsNeeded>> GetThingsForTeambuilding(string id)
+        {
+            var things = db.ThingsNedded.Where(x => x.TeamBuildingId == id);
 
             return things;
         }

@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using MyAspNetProject.Controllers;
 using MyAspNetProject.Data;
 using MyAspNetProject.Helpers;
 using MyAspNetProject.JWT;
@@ -39,6 +40,8 @@ namespace MyAspNetProject
             services.AddControllersWithViews();
 
             services.AddScoped<ApplicationDbContext>();
+
+            services.AddSignalR();
 
             services.AddAuthentication().AddFacebook(facebookOptions =>
             {
@@ -96,9 +99,10 @@ namespace MyAspNetProject
             services.AddCors(options => {
                 options.AddPolicy("AllowAll", 
                 builder => builder
-                .AllowAnyOrigin()
+                .AllowAnyHeader()
                 .AllowAnyMethod()
-                .AllowAnyHeader());
+                .SetIsOriginAllowed(_ => true)
+                .AllowCredentials());
             });
 
             var builder = services.AddIdentityCore<UserApp>(o =>
@@ -122,8 +126,8 @@ namespace MyAspNetProject
                 options.Password.RequireDigit = false;
                 options.Password.RequireNonAlphanumeric = false;
             })
-                .AddRoles<IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            .AddRoles<IdentityRole>()
+            .AddEntityFrameworkStores<ApplicationDbContext>();
 
             //services.AddMvc().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
         }
@@ -155,6 +159,7 @@ namespace MyAspNetProject
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");
+                endpoints.MapHub<ChatHub>("/chat");
             });
 
             db.Database.Migrate();

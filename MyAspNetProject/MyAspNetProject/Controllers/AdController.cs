@@ -55,5 +55,18 @@ namespace MyAspNetProject.Controllers
         {
             return db.Ad.ToList();
         }
+
+        [HttpDelete]
+        [Authorize(Policy = "ApiUser")]
+        [Route("deleteAd/{id}")]
+        public async Task<IEnumerable<Ad>> delete(string id)
+        {
+
+            var ad = db.Ad.FirstOrDefault(x => x.Id == id);
+            db.Ad.Remove(ad);
+            db.SaveChanges();
+
+            return db.Ad.ToList();
+        }
     }
 }

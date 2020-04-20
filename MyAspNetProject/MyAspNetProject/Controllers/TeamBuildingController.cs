@@ -74,6 +74,7 @@ namespace MyAspNetProject.Controllers
 
             var teamBuilding = new TeamBuilding
             {
+                CompanyName = user.CompanyName,
                 Location = model.Location,
                 CreatorId = model.CreatorId,
                 Date = model.Date
@@ -98,13 +99,47 @@ namespace MyAspNetProject.Controllers
             return users;
         }
 
+        [HttpGet]
+        [Authorize(Policy = "ApiUser")]
+        [Route("getActive")]
+        public async Task<IEnumerable<TeamBuilding>> GetActiveTeambuildings()
+        {
+            UserApp user = await _userManager.FindByIdAsync(_caller.Claims.Single(c => c.Type == "id").Value);
+
+            var teambuilds = db.TeamBuilding.Where(x => x.CompanyName == user.CompanyName && x.Date > DateTime.Now);
+       
+            return teambuilds;
+        }
+
+        [HttpGet]
+        [Authorize(Policy = "ApiUser")]
+        [Route("getPast")]
+        public async Task<IEnumerable<TeamBuilding>> GetPastTeambuildings()
+        {
+            UserApp user = await _userManager.FindByIdAsync(_caller.Claims.Single(c => c.Type == "id").Value);
+
+            var teambuilds = db.TeamBuilding.Where(x => x.CompanyName == user.CompanyName && x.Date < DateTime.Now);
+
+            return teambuilds;
+        }
+
+        [HttpGet]
+        [Authorize(Policy = "ApiUser")]
+        [Route("getById/{id}")]
+        public async Task<TeamBuilding> GetTeambuildingById(string id)
+        {
+            var teambuild = db.TeamBuilding.FirstOrDefault(x => x.Id == id);
+
+            return teambuild;
+        }
+
         static async Task Execute(string email, string name)
         {
            // var apiKey = Environment.GetEnvironmentVariable("MySendGrid");
             var client = new SendGridClient("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");
-            var from = new EmailAddress(email, "Email for confirmation !");
-            var subject = $"Welcome to out application, {name} !";
-            var to = new EmailAddress("mikiko16@abv.bg", name);
+            var from = new EmailAddress("mikiko16@abv.bg", "Email for confirmation !");
+            var subject = $"Welcome to our application, {name} !";
+            var to = new EmailAddress(email, name);
             var plainTextContent = "and Miro is the best !!!";
             var htmlContent = "<strong>Your request has been approved! Enjoy our application!</strong>";
             var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
