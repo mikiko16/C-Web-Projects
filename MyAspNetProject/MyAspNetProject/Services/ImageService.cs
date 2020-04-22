@@ -26,32 +26,32 @@ namespace MyAspNetProject.Services
         {
             this.db = db;
         }
-        public string UploadAdPicture(IFormFile Image)
+        public async Task<string> UploadAdPicture(IFormFile Image)
         {
-            ImageUploadResult result = this.UploadPicture(Image);
+            ImageUploadResult result = await this.UploadPicture(Image);
 
             picture.Link = result.SecureUri.ToString();
             db.Pictures.Add(picture);
-            db.SaveChangesAsync();
+            db.SaveChanges();
 
             return picture.Link;
         }
 
-        public async Task<IEnumerable<Pictures>> UploadTeamPicture(IFormFile Image, IFormCollection data)
+        public async Task<string> UploadTeamPicture(IFormFile Image, IFormCollection data)
         {
             var id = data["Id"];
 
-            ImageUploadResult result = this.UploadPicture(Image);
+            ImageUploadResult result = await this.UploadPicture(Image);
 
             picture.Link = result.SecureUri.ToString();
             picture.TeamBuildingId = id.ToString();
             db.Pictures.Add(picture);
-            await db.SaveChangesAsync();
+            db.SaveChanges();
             
-            return db.Pictures.Where(x => x.TeamBuildingId == id);
+            return id;
         }
 
-        public ImageUploadResult UploadPicture(IFormFile Image)
+        public async Task<ImageUploadResult> UploadPicture(IFormFile Image)
         {
             var folderName = Path.Combine("Resources", "ProfilePics");
             var filePath = Path.Combine(Directory.GetCurrentDirectory(), folderName);
@@ -68,7 +68,7 @@ namespace MyAspNetProject.Services
 
             using (var fileStream = new FileStream(Path.Combine(filePath, uniqueFileName), FileMode.Create))
             {
-                Image.CopyToAsync(fileStream);
+                await Image.CopyToAsync(fileStream);
             }
 
             var uploadParams = new ImageUploadParams()

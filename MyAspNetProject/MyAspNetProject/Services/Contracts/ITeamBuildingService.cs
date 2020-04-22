@@ -16,5 +16,7 @@ namespace MyAspNetProject.Services.Contracts
         public IEnumerable<TeamBuilding> GetPastTeambuildings(UserApp user);
 
         public TeamBuilding GetTeambuildingById(string id);
+
+        public IEnumerable<Pictures> GetTeambuildingPics(string id);
     }
 }

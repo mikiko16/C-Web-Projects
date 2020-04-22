@@ -8,7 +8,7 @@ namespace MyAspNetProject.Services.Contracts
 {
     public interface IAdService
     {
-        public Task<Ad> UploadProfilePicture(Ad model, string id);
+        public Ad UploadProfilePicture(Ad model, string id);
 
         public Task<IEnumerable<Ad>> GetAllAds();
 

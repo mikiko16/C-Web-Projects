@@ -31,7 +31,7 @@ namespace MyAspNetProject.Services
             return db.Ad.ToList();
         }
 
-        public async Task<Ad> UploadProfilePicture(Ad model, string id)
+        public Ad UploadProfilePicture(Ad model, string id)
         {
             Ad ad = new Ad
             {
@@ -42,7 +42,7 @@ namespace MyAspNetProject.Services
             };
 
             db.Ad.Add(ad);
-            await db.SaveChangesAsync();
+            db.SaveChanges();
 
             return ad;
         }

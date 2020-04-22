@@ -86,5 +86,13 @@ namespace MyAspNetProject.Controllers
         {
             return teambuildingService.GetTeambuildingById(id);
         }
+
+        [HttpGet]
+        [Authorize(Policy = "ApiUser")]
+        [Route("getPicsById/{id}")]
+        public IEnumerable<Pictures> GetPictures(string id)
+        {
+            return teambuildingService.GetTeambuildingPics(id);
+        }
     }
 }

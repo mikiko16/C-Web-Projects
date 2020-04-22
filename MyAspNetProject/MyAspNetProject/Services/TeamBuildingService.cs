@@ -52,5 +52,10 @@ namespace MyAspNetProject.Services
         {
             return db.TeamBuilding.FirstOrDefault(x => x.Id == id);
         }
+
+        public IEnumerable<Pictures> GetTeambuildingPics(string id)
+        {
+            return db.Pictures.Where(x => x.TeamBuildingId == id);
+        }
     }
 }

@@ -46,7 +46,7 @@ namespace MyAspNetProject
             services.AddScoped<IThingService, ThingService>();
             services.AddScoped<ITeamBuildingService, TeamBuildingService>();
             services.AddScoped<IAdService, AdService>();
-            services.AddTransient<IImageService, ImageService>();
+            services.AddScoped<IImageService, ImageService>();
 
             services.AddSignalR();
 

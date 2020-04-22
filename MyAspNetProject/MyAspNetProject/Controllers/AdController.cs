@@ -31,11 +31,11 @@ namespace MyAspNetProject.Controllers
        [HttpPost]
        [Authorize(Policy = "ApiUser")]
        [Route("createAd")]
-       public async Task<Ad> UploadProfilePicture(Ad model)
+       public Ad UploadProfilePicture(Ad model)
        {
             var id = _caller.Claims.Single(c => c.Type == "id").Value;
 
-            return await this.adService.UploadProfilePicture(model, id);
+            return this.adService.UploadProfilePicture(model, id);
        }
 
         [HttpGet]

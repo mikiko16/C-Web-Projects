@@ -10,10 +10,10 @@ namespace MyAspNetProject.Services.Contracts
 {
     public interface IImageService
     {
-        public string UploadAdPicture(IFormFile Image);
+        public Task<string> UploadAdPicture(IFormFile Image);
 
-        public Task<IEnumerable<Pictures>> UploadTeamPicture(IFormFile Image, IFormCollection data);
+        public Task<string> UploadTeamPicture(IFormFile Image, IFormCollection data);
 
-        public ImageUploadResult UploadPicture(IFormFile Image);
+        public Task<ImageUploadResult> UploadPicture(IFormFile Image);
     }
 }
