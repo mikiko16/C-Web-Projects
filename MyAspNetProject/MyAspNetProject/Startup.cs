@@ -16,6 +16,8 @@ using MyAspNetProject.Data;
 using MyAspNetProject.Helpers;
 using MyAspNetProject.JWT;
 using MyAspNetProject.models;
+using MyAspNetProject.Services;
+using MyAspNetProject.Services.Contracts;
 using System;
 using System.IO;
 using System.Text;
@@ -40,6 +42,11 @@ namespace MyAspNetProject
             services.AddControllersWithViews();
 
             services.AddScoped<ApplicationDbContext>();
+            services.AddSingleton<IJwtFactory, JwtFactory>();
+            services.AddScoped<IThingService, ThingService>();
+            services.AddScoped<ITeamBuildingService, TeamBuildingService>();
+            services.AddScoped<IAdService, AdService>();
+            services.AddTransient<IImageService, ImageService>();
 
             services.AddSignalR();
 
@@ -48,8 +55,6 @@ namespace MyAspNetProject
                 facebookOptions.AppId = Configuration["Authentication:Facebook:AppId"];
                 facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
             });
-
-            services.AddSingleton<IJwtFactory, JwtFactory>();
 
             var jwtAppSettingOptions = Configuration.GetSection(nameof(JwtIssuerOptions));
 
@@ -162,7 +167,7 @@ namespace MyAspNetProject
                 endpoints.MapHub<ChatHub>("/chat");
             });
 
-            db.Database.Migrate();
+            //db.Database.Migrate();
         }
     }
 }

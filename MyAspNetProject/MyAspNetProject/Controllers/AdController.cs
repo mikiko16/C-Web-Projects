@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MyAspNetProject.Data;
 using MyAspNetProject.Models;
+using MyAspNetProject.Services.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,13 +18,13 @@ namespace MyAspNetProject.Controllers
     [Route("ads")]
     public class AdController
     {
-        private readonly ApplicationDbContext db;
+        private readonly IAdService adService;
         private readonly ClaimsPrincipal _caller;
 
-        public AdController(ApplicationDbContext db
-                            , IHttpContextAccessor httpContextAccessor)
+        public AdController(IHttpContextAccessor httpContextAccessor,
+                            IAdService adService)
         {
-            this.db = db;
+            this.adService = adService;
             this._caller = httpContextAccessor.HttpContext.User;
         }
 
@@ -34,18 +35,7 @@ namespace MyAspNetProject.Controllers
        {
             var id = _caller.Claims.Single(c => c.Type == "id").Value;
 
-           Ad ad = new Ad
-           {
-               UserId = id,
-               Link = model.Link,
-               Title = model.Title,
-               Text = model.Text
-           };
-
-            db.Ad.Add(ad);
-            db.SaveChanges();
-
-            return ad;
+            return await this.adService.UploadProfilePicture(model, id);
        }
 
         [HttpGet]
@@ -53,7 +43,7 @@ namespace MyAspNetProject.Controllers
         [Route("getAllAds")]
         public async Task<IEnumerable<Ad>> GetAllAds()
         {
-            return db.Ad.ToList();
+            return await adService.GetAllAds();
         }
 
         [HttpDelete]
@@ -61,12 +51,7 @@ namespace MyAspNetProject.Controllers
         [Route("deleteAd/{id}")]
         public async Task<IEnumerable<Ad>> delete(string id)
         {
-
-            var ad = db.Ad.FirstOrDefault(x => x.Id == id);
-            db.Ad.Remove(ad);
-            db.SaveChanges();
-
-            return db.Ad.ToList();
+            return await adService.Delete(id);
         }
     }
 }

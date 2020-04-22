@@ -9,8 +9,6 @@ using MyAspNetProject.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using SendGrid;
-using SendGrid.Helpers.Mail;
 using Newtonsoft.Json;
 using System.Security.Claims;
 using Microsoft.Extensions.Options;
@@ -151,9 +149,23 @@ namespace MyAspNetProject.Controllers
 
             var notActiveUsers = db.Users.Where(x => x.CompanyName == user.CompanyName && x.IsActive == false).ToList();
 
-            await Execute(user.Email, user.FirstName);
+            await SendEmail.Execute(user.Email, user.FirstName);
 
             return notActiveUsers;
+        }
+
+        [HttpDelete]
+        [Authorize]
+        [Route("delete/{id}")]
+        public async Task<IEnumerable<UserApp>> DeleteUser(string id)
+        {
+            var user = db.Users.FirstOrDefault(x => x.Id == id);
+            await userManager.DeleteAsync(user);
+            db.SaveChanges();
+
+            var allUsers = db.Users.Where(x => x.CompanyName == user.CompanyName && x.IsActive == false).ToList();
+
+            return allUsers;
         }
 
         private async Task<ClaimsIdentity> GetClaimsIdentity(string userName, string password)
@@ -174,18 +186,6 @@ namespace MyAspNetProject.Controllers
 
             // Credentials are invalid, or account doesn't exist
             return await Task.FromResult<ClaimsIdentity>(null);
-        }
-        static async Task Execute(string email, string name)
-        {
-            var apiKey = Environment.GetEnvironmentVariable("MySendGrid");
-            var client = new SendGridClient(apiKey);
-            var from = new EmailAddress("mikiko16@abv.bg", "Email for confirmation !");
-            var subject = $"Welcome to our application, {name} !";
-            var to = new EmailAddress(email, name);
-            var plainTextContent = "and Miro is the best !!!";
-            var htmlContent = "<strong>Your request has been approved! Enjoy our application!</strong>";
-            var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
-            var response = await client.SendEmailAsync(msg);
         }
     }
 }

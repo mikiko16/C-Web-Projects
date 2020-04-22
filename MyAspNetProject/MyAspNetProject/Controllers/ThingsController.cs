@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using MyAspNetProject.Data;
 using MyAspNetProject.models;
 using MyAspNetProject.Models;
+using MyAspNetProject.Services;
+using MyAspNetProject.Services.Contracts;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 using System;
@@ -23,41 +25,27 @@ namespace MyAspNetProject.Controllers
     [Route("things")]
     public class ThingsController : Controller
     {
-        private readonly ApplicationDbContext db;
+        private readonly IThingService thingService;
 
-        public ThingsController(ApplicationDbContext db)
+        public ThingsController(IThingService thingService)
         {
-            this.db = db;
+            this.thingService = thingService;
         }
 
         [HttpPost]
         [Authorize(Policy = "ApiUser")]
         [Route("createThing")]
-        public async Task<IEnumerable<ThingsNeeded>> createThing(ThingsNeeded model)
+        public IEnumerable<ThingsNeeded> createThing(ThingsNeeded model)
         {
-            ThingsNeeded thing = new ThingsNeeded
-            {
-                Name = model.Name,
-                TeamBuildingId = model.TeamBuildingId,
-                UserAppId = model.UserAppId
-            };
-
-            db.ThingsNedded.Add(thing);
-            db.SaveChanges();
-
-            var things = db.ThingsNedded.Where(x => x.TeamBuildingId == model.TeamBuildingId && x.UserAppId == model.UserAppId);
-
-            return things;
+            return thingService.CreateThing(model);
         }
 
         [HttpGet]
         [Authorize(Policy = "ApiUser")]
         [Route("getThings/{id}")]
-        public async Task<IEnumerable<ThingsNeeded>> GetThingsForTeambuilding(string id)
+        public IEnumerable<ThingsNeeded> GetThingsForTeambuilding(string id)
         {
-            var things = db.ThingsNedded.Where(x => x.TeamBuildingId == id);
-
-            return things;
+            return this.thingService.GetThing(id);
         }
     }
 }

@@ -54,7 +54,7 @@ namespace MyAspNetProject.Controllers
 
             if (!userAccessTokenValidation.Data.IsValid)
             {
-                return BadRequest(Errors.AddErrorToModelState("login_failure", "Invalid facebook token.", ModelState));
+                return BadRequest();
             }
 
             // 3. we've got a valid token so we can request user data from fb
@@ -77,7 +77,7 @@ namespace MyAspNetProject.Controllers
 
                 var result = await _userManager.CreateAsync(appUser, Convert.ToBase64String(Guid.NewGuid().ToByteArray()).Substring(0, 8));
 
-                if (!result.Succeeded) return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
+                if (!result.Succeeded) return new BadRequestObjectResult("Something went wrong !");
             }
 
             // generate the jwt for the local user...
@@ -85,7 +85,7 @@ namespace MyAspNetProject.Controllers
 
             if (localUser == null)
             {
-                return BadRequest(Errors.AddErrorToModelState("login_failure", "Failed to create local user account.", ModelState));
+                return BadRequest();
             }
 
             var isAdmin = await _userManager.IsInRoleAsync(user, "Admin");

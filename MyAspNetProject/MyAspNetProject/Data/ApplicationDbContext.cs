@@ -16,11 +16,11 @@ namespace MyAspNetProject.Data
 
         }
 
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    base.OnConfiguring(optionsBuilder);
-        //    //optionsBuilder.UseSqlServer(DatabaseConfiguration.ConnectionString);
-        //}
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            base.OnConfiguring(optionsBuilder);
+            optionsBuilder.UseSqlServer(DatabaseConfiguration.ConnectionString);
+        }
 
         public DbSet<TeamBuilding> TeamBuilding { get; set; }
 
