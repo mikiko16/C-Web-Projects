@@ -1,4 +1,6 @@
-﻿using MyAspNetProject.Data;
+﻿using CloudinaryDotNet;
+using CloudinaryDotNet.Actions;
+using MyAspNetProject.Data;
 using MyAspNetProject.Models;
 using MyAspNetProject.Services.Contracts;
 using System;
@@ -12,16 +14,29 @@ namespace MyAspNetProject.Services
     {
         private readonly ApplicationDbContext db;
 
+        Cloudinary cloudinary = new Cloudinary(new Account(
+             "mikiko16",
+             "686516265985614",
+             "cyjH_KBR9Djp3oOQhUWGcKr3FWg"));
         public AdService(ApplicationDbContext db)
         {
             this.db = db;
         }
 
-        public async Task<IEnumerable<Ad>> Delete(string id)
+        public IEnumerable<Ad> Delete(string id)
         {
+            var pic = db.Ad.FirstOrDefault(x => x.Id == id);
+
+            string input = pic.Link;
+            int index = input.LastIndexOf("/") + 1;
+            if (index > 0)
+                input = input.Substring(index, input.Length - index - 4);
+
+            cloudinary.DeleteResourcesByTag(input);
+
             var ad = db.Ad.FirstOrDefault(x => x.Id == id);
             db.Ad.Remove(ad);
-            await db.SaveChangesAsync();
+            db.SaveChanges();
 
             return db.Ad.ToList();
         }

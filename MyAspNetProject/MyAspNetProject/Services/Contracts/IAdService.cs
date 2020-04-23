@@ -12,6 +12,6 @@ namespace MyAspNetProject.Services.Contracts
 
         public Task<IEnumerable<Ad>> GetAllAds();
 
-        public Task<IEnumerable<Ad>> Delete(string id);
+        public IEnumerable<Ad> Delete(string id);
     }
 }

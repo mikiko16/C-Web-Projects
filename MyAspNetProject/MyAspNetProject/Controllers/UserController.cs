@@ -128,7 +128,6 @@ namespace MyAspNetProject.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         [Route("Logout")]
 
         public async Task<IActionResult> Logout()

@@ -49,9 +49,9 @@ namespace MyAspNetProject.Controllers
         [HttpDelete]
         [Authorize(Policy = "ApiUser")]
         [Route("deleteAd/{id}")]
-        public async Task<IEnumerable<Ad>> delete(string id)
+        public IEnumerable<Ad> delete(string id)
         {
-            return await adService.Delete(id);
+            return adService.Delete(id);
         }
     }
 }
