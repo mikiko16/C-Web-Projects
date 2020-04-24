@@ -70,7 +70,6 @@ namespace MyAspNetProject.Controllers
             {
                 return BadRequest();
             }
-
             var result = await this.signInManager.PasswordSignInAsync(model.Email,
                 model.PasswordHash, true, false);
 
@@ -79,7 +78,6 @@ namespace MyAspNetProject.Controllers
             if (result.Succeeded)
             {
                 var isAdmin = await userManager.IsInRoleAsync(this.userToVerify, "Admin");
-
                 var jwt = await Tokens.GenerateJwt(identity, _jwtFactory, model.Email, _jwtOptions, new JsonSerializerSettings { Formatting = Formatting.Indented }, isAdmin);
                 return Ok(jwt);
             }
@@ -180,7 +178,12 @@ namespace MyAspNetProject.Controllers
             // check the credentials
             if (await userManager.CheckPasswordAsync(userToVerify, password))
             {
-                return await Task.FromResult(_jwtFactory.GenerateClaimsIdentity(userName, userToVerify.Id));
+                var isAdmin = await userManager.IsInRoleAsync(this.userToVerify, "Admin");
+                if (isAdmin)
+                {
+                    return await Task.FromResult(_jwtFactory.GenerateClaimsIdentity(userName, userToVerify.Id, "Admin"));
+                }
+                return await Task.FromResult(_jwtFactory.GenerateClaimsIdentity(userName, userToVerify.Id, "User"));
             }
 
             // Credentials are invalid, or account doesn't exist

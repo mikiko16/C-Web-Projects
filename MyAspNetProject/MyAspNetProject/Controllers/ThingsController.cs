@@ -26,18 +26,28 @@ namespace MyAspNetProject.Controllers
     public class ThingsController : Controller
     {
         private readonly IThingService thingService;
+        private readonly ClaimsPrincipal _caller;
 
-        public ThingsController(IThingService thingService)
+        public ThingsController(IThingService thingService,
+                                IHttpContextAccessor httpContextAccessor)
         {
             this.thingService = thingService;
+            this._caller = httpContextAccessor.HttpContext.User;
         }
+
+        public IHttpContextAccessor HttpContextAccessor { get; }
 
         [HttpPost]
         [Authorize(Policy = "ApiUser")]
         [Route("createThing")]
-        public IEnumerable<ThingsNeeded> createThing(ThingsNeeded model)
+        public ActionResult<IEnumerable<ThingsNeeded>> createThing(ThingsNeeded model)
         {
-            return thingService.CreateThing(model);
+            string role = _caller.Claims.Single(c => c.Type == "Role").Value;
+            if(role == "Admin")
+            {
+                return Ok(thingService.CreateThing(model));
+            }
+            return Unauthorized();
         }
 
         [HttpGet]

@@ -40,13 +40,19 @@ namespace MyAspNetProject.Controllers
         public ActionResult<TeamBuilding> CreateTeamBuilding(TeamBuilding model)
         {
             UserApp user = _userManager.Users.FirstOrDefault(x => x.Id == model.CreatorId);
+            string role = _caller.Claims.Single(c => c.Type == "Role").Value;
 
             if (!ModelState.IsValid || user == null)
             {
                 return BadRequest("Something went wrong !");
             };
 
-            return teambuildingService.CreateTeamBuilding(user.CompanyName, model) ;
+            if (role == "Admin")
+            {
+                return Ok(teambuildingService.CreateTeamBuilding(user.CompanyName, model));
+            }
+
+            return Ok();
         }
 
         [HttpGet]

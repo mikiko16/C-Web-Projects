@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net.Http;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Identity;
@@ -26,6 +27,7 @@ namespace MyAspNetProject.Controllers
         private readonly IJwtFactory _jwtFactory;
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly JwtIssuerOptions _jwtOptions;
+        private readonly ClaimsPrincipal _caller;
         private static readonly HttpClient Client = new HttpClient();
 
         public ExternalAuthController(UserManager<UserApp> userManager,
@@ -90,7 +92,7 @@ namespace MyAspNetProject.Controllers
 
             var isAdmin = await _userManager.IsInRoleAsync(user, "Admin");
 
-            var jwt = await Tokens.GenerateJwt(_jwtFactory.GenerateClaimsIdentity(localUser.UserName, localUser.Id),
+            var jwt = await Tokens.GenerateJwt(_jwtFactory.GenerateClaimsIdentity(localUser.UserName, localUser.Id, "Admin"),
               _jwtFactory, localUser.UserName, _jwtOptions, new JsonSerializerSettings { Formatting = Formatting.Indented }, isAdmin);
 
             return new OkObjectResult(jwt);

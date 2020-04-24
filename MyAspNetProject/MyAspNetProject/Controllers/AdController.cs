@@ -16,7 +16,7 @@ namespace MyAspNetProject.Controllers
     [ApiController]
     [EnableCors("AllowAll")]
     [Route("ads")]
-    public class AdController
+    public class AdController : Controller
     {
         private readonly IAdService adService;
         private readonly ClaimsPrincipal _caller;
@@ -49,9 +49,15 @@ namespace MyAspNetProject.Controllers
         [HttpDelete]
         [Authorize(Policy = "ApiUser")]
         [Route("deleteAd/{id}")]
-        public IEnumerable<Ad> delete(string id)
+        public ActionResult<IEnumerable<Ad>> delete(string id)
         {
-            return adService.Delete(id);
+            string role = _caller.Claims.Single(c => c.Type == "Role").Value;
+            if (role == "Admin")
+            {
+                return Ok(adService.Delete(id));
+            }
+
+            return Unauthorized();
         }
     }
 }
