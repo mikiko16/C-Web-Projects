@@ -52,12 +52,13 @@ namespace MyAspNetProject.Controllers
         public ActionResult<IEnumerable<Ad>> delete(string id)
         {
             string role = _caller.Claims.Single(c => c.Type == "Role").Value;
+
             if (role == "Admin")
             {
                 return Ok(adService.Delete(id));
             }
 
-            return Unauthorized();
+            return Unauthorized("You have no rights for this action!");
         }
     }
 }

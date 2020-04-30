@@ -1,4 +1,5 @@
-﻿using MyAspNetProject.models;
+﻿using Microsoft.AspNetCore.Mvc;
+using MyAspNetProject.models;
 using MyAspNetProject.Models;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ namespace MyAspNetProject.Services.Contracts
 {
     public interface ITeamBuildingService
     {
-        public TeamBuilding CreateTeamBuilding(string companyName, TeamBuilding model);
+        public Task<ActionResult<TeamBuilding>> CreateTeamBuilding(string companyName, TeamBuilding model);
 
         public IEnumerable<TeamBuilding> GetActiveTeambuildings(UserApp user);
 

@@ -7035,25 +7035,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Miro\\.nuget\\packages\\": {},
-    "C:\\Microsoft\\Xamarin\\NuGet\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\usr\\.nuget\\packages\\": {},
+    "C:\\Microsoft\\Xamarin\\NuGet\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Miro\\source\\repos\\ExamPrep C# WEB\\ExamPrep\\SIS.MvcFramework.Tests\\SIS.MvcFramework.Tests.csproj",
+      "projectUniqueName": "C:\\Users\\usr\\GitHub\\C-Web-Projects\\ExamPrep\\SIS.MvcFramework.Tests\\SIS.MvcFramework.Tests.csproj",
       "projectName": "SIS.MvcFramework.Tests",
-      "projectPath": "C:\\Users\\Miro\\source\\repos\\ExamPrep C# WEB\\ExamPrep\\SIS.MvcFramework.Tests\\SIS.MvcFramework.Tests.csproj",
-      "packagesPath": "C:\\Users\\Miro\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Miro\\source\\repos\\ExamPrep C# WEB\\ExamPrep\\SIS.MvcFramework.Tests\\obj\\",
+      "projectPath": "C:\\Users\\usr\\GitHub\\C-Web-Projects\\ExamPrep\\SIS.MvcFramework.Tests\\SIS.MvcFramework.Tests.csproj",
+      "packagesPath": "C:\\Users\\usr\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\usr\\GitHub\\C-Web-Projects\\ExamPrep\\SIS.MvcFramework.Tests\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Microsoft\\Xamarin\\NuGet\\",
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        "C:\\Microsoft\\Xamarin\\NuGet\\"
       ],
       "configFilePaths": [
-        "C:\\Users\\Miro\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\usr\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
       ],
@@ -7067,8 +7065,8 @@
       "frameworks": {
         "netcoreapp3.1": {
           "projectReferences": {
-            "C:\\Users\\Miro\\source\\repos\\ExamPrep C# WEB\\ExamPrep\\SIS.MvcFramework\\SIS.MvcFramework.csproj": {
-              "projectPath": "C:\\Users\\Miro\\source\\repos\\ExamPrep C# WEB\\ExamPrep\\SIS.MvcFramework\\SIS.MvcFramework.csproj"
+            "C:\\Users\\usr\\GitHub\\C-Web-Projects\\ExamPrep\\SIS.MvcFramework\\SIS.MvcFramework.csproj": {
+              "projectPath": "C:\\Users\\usr\\GitHub\\C-Web-Projects\\ExamPrep\\SIS.MvcFramework\\SIS.MvcFramework.csproj"
             }
           }
         }
@@ -7114,7 +7112,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
       }
     }
   }

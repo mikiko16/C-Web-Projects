@@ -14,15 +14,12 @@ namespace MyAspNetProject.Services
     public class TeamBuildingService : ITeamBuildingService
     {
         private readonly ApplicationDbContext db;
-        private readonly UserManager<UserApp> _userManager;
 
-        public TeamBuildingService(ApplicationDbContext db,
-                                   UserManager<UserApp> userManager)
+        public TeamBuildingService(ApplicationDbContext db)
         {
             this.db = db;
-            this._userManager = userManager;
         }
-        public TeamBuilding CreateTeamBuilding(string companyName, TeamBuilding model)
+        public async Task<ActionResult<TeamBuilding>> CreateTeamBuilding(string companyName, TeamBuilding model)
         {
             var teamBuilding = new TeamBuilding
             {
@@ -33,7 +30,7 @@ namespace MyAspNetProject.Services
             };
 
             var team = db.TeamBuilding.Add(teamBuilding);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
 
             return teamBuilding;
         }

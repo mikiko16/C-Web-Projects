@@ -43,6 +43,7 @@ namespace MyAspNetProject.Controllers
         public ActionResult<IEnumerable<ThingsNeeded>> createThing(ThingsNeeded model)
         {
             string role = _caller.Claims.Single(c => c.Type == "Role").Value;
+
             if(role == "Admin")
             {
                 return Ok(thingService.CreateThing(model));

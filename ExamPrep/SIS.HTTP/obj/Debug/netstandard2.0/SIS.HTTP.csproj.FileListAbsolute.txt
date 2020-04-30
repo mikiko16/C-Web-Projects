@@ -6,3 +6,12 @@ C:\Users\Miro\source\repos\ExamPrep C# WEB\ExamPrep\SIS.HTTP\obj\Debug\netstanda
 C:\Users\Miro\source\repos\ExamPrep C# WEB\ExamPrep\SIS.HTTP\obj\Debug\netstandard2.0\SIS.HTTP.AssemblyInfo.cs
 C:\Users\Miro\source\repos\ExamPrep C# WEB\ExamPrep\SIS.HTTP\obj\Debug\netstandard2.0\SIS.HTTP.dll
 C:\Users\Miro\source\repos\ExamPrep C# WEB\ExamPrep\SIS.HTTP\obj\Debug\netstandard2.0\SIS.HTTP.pdb
+C:\Users\usr\GitHub\C-Web-Projects\ExamPrep\SIS.HTTP\bin\Debug\netstandard2.0\SIS.HTTP.deps.json
+C:\Users\usr\GitHub\C-Web-Projects\ExamPrep\SIS.HTTP\bin\Debug\netstandard2.0\SIS.HTTP.dll
+C:\Users\usr\GitHub\C-Web-Projects\ExamPrep\SIS.HTTP\bin\Debug\netstandard2.0\SIS.HTTP.pdb
+C:\Users\usr\GitHub\C-Web-Projects\ExamPrep\SIS.HTTP\obj\Debug\netstandard2.0\SIS.HTTP.csprojAssemblyReference.cache
+C:\Users\usr\GitHub\C-Web-Projects\ExamPrep\SIS.HTTP\obj\Debug\netstandard2.0\SIS.HTTP.csproj.CoreCompileInputs.cache
+C:\Users\usr\GitHub\C-Web-Projects\ExamPrep\SIS.HTTP\obj\Debug\netstandard2.0\SIS.HTTP.AssemblyInfoInputs.cache
+C:\Users\usr\GitHub\C-Web-Projects\ExamPrep\SIS.HTTP\obj\Debug\netstandard2.0\SIS.HTTP.AssemblyInfo.cs
+C:\Users\usr\GitHub\C-Web-Projects\ExamPrep\SIS.HTTP\obj\Debug\netstandard2.0\SIS.HTTP.dll
+C:\Users\usr\GitHub\C-Web-Projects\ExamPrep\SIS.HTTP\obj\Debug\netstandard2.0\SIS.HTTP.pdb

@@ -60,7 +60,6 @@ namespace MyAspNetProject.Services
             {
                 Directory.CreateDirectory(filePath);
             }
-
             //var picture = new Pictures();
 
             var uniqueFileName = $"{picture.Id}.jpeg";
@@ -74,7 +73,7 @@ namespace MyAspNetProject.Services
             var uploadParams = new ImageUploadParams()
             {
                 File = new FileDescription($"{dbPath}"),
-                PublicId = picture.Id,
+                PublicId = uniqueFileName,
                 Overwrite = true
             };
 

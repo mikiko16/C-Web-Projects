@@ -47,48 +47,6 @@ namespace MyAspNetProject.Controllers
 
             string pic = await imageService.UploadAdPicture(Image);
             return pic;
-            
-            //var id = data["Id"];
-            
-            //var folderName = Path.Combine("Resources", "ProfilePics");
-            //var filePath = Path.Combine(Directory.GetCurrentDirectory(), folderName);
-            //
-            //if (!Directory.Exists(filePath))
-            //{
-            //    Directory.CreateDirectory(filePath);
-            //}
-            //
-            //var picture = new Pictures();
-            //
-            //var uniqueFileName = $"{picture.Id}.jpeg";
-            //var dbPath = Path.Combine(folderName, uniqueFileName);
-            //
-            //using (var fileStream = new FileStream(Path.Combine(filePath, uniqueFileName), FileMode.Create))
-            //{
-            //    await Image.CopyToAsync(fileStream);
-            //}
-            //
-            //var uploadParams = new ImageUploadParams()
-            //{
-            //    File = new FileDescription($"{dbPath}"),
-            //    PublicId = picture.Id,
-            //    Overwrite = true
-            //};
-            //
-            //var uploadResult = cloudinary.Upload(uploadParams);
-            //
-            //picture.Link = uploadResult.SecureUri.ToString();
-            //db.Pictures.Add(picture);
-            //db.SaveChanges();
-            //
-            //return picture.Link;
-            
-            //picture.Link = uploadResult.SecureUri.ToString();
-            //picture.TeamBuildingId = id.ToString();
-            //db.Pictures.Add(picture);
-            //db.SaveChanges();
-            
-            //return db.Pictures.Where(x => x.TeamBuildingId == id);
         }
 
         [HttpPost]

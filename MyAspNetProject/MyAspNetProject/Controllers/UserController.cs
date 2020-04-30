@@ -28,6 +28,7 @@ namespace MyAspNetProject.Controllers
         private readonly SignInManager<UserApp> signInManager;
         private readonly IJwtFactory _jwtFactory;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly ICreateClaims createClaims;
         private readonly JwtIssuerOptions _jwtOptions;
         private readonly ClaimsPrincipal _caller;
         UserApp userToVerify;
@@ -37,13 +38,15 @@ namespace MyAspNetProject.Controllers
                               IJwtFactory jwtFactory,
                               IOptions<JwtIssuerOptions> jwtOptions,
                               IHttpContextAccessor httpContextAccessor,
-                              RoleManager<IdentityRole> roleManager)
+                              RoleManager<IdentityRole> roleManager,
+                              ICreateClaims createClaims)
         {
             this.db = db;
             this.userManager = userManager;
             this.signInManager = signInManager;
             this._jwtFactory = jwtFactory;
             this._roleManager = roleManager;
+            this.createClaims = createClaims;
             this._jwtOptions = jwtOptions.Value;
             this._caller = httpContextAccessor.HttpContext.User;
         }
@@ -64,17 +67,18 @@ namespace MyAspNetProject.Controllers
 
         [HttpPost]
         [Route("Login")]
-        public async Task<ActionResult> Login(LoginUser model)
+        public async Task<IActionResult> Login(LoginUser model)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest();
+                return BadRequest("Something is missing !");
             }
             var result = await this.signInManager.PasswordSignInAsync(model.Email,
                 model.PasswordHash, true, false);
 
-            var identity = await GetClaimsIdentity(model.Email, model.PasswordHash);
+            var identity = await createClaims.GetClaimsIdentity(model.Email, model.PasswordHash);
 
+            this.userToVerify = await userManager.FindByNameAsync(model.Email);
             if (result.Succeeded)
             {
                 var isAdmin = await userManager.IsInRoleAsync(this.userToVerify, "Admin");
@@ -82,7 +86,7 @@ namespace MyAspNetProject.Controllers
                 return Ok(jwt);
             }
 
-            return Unauthorized(result);
+            return Unauthorized("Wrong password or username !");
         }
 
         [HttpPost]
@@ -119,7 +123,6 @@ namespace MyAspNetProject.Controllers
                 {
                     await userManager.AddToRoleAsync(newUser, "User");
                 }
-
                 return Ok();
             }
             return BadRequest(result);
@@ -128,7 +131,7 @@ namespace MyAspNetProject.Controllers
         [HttpPost]
         [Route("Logout")]
 
-        public async Task<IActionResult> Logout()
+        public async Task<ActionResult> Logout()
         {
             await this.signInManager.SignOutAsync();
 
@@ -163,31 +166,6 @@ namespace MyAspNetProject.Controllers
             var allUsers = db.Users.Where(x => x.CompanyName == user.CompanyName && x.IsActive == false).ToList();
 
             return allUsers;
-        }
-
-        private async Task<ClaimsIdentity> GetClaimsIdentity(string userName, string password)
-        {
-            if (string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(password))
-                return await Task.FromResult<ClaimsIdentity>(null);
-
-            // get the user to verifty
-            this.userToVerify = await userManager.FindByNameAsync(userName);
-
-            if (userToVerify == null) return await Task.FromResult<ClaimsIdentity>(null);
-
-            // check the credentials
-            if (await userManager.CheckPasswordAsync(userToVerify, password))
-            {
-                var isAdmin = await userManager.IsInRoleAsync(this.userToVerify, "Admin");
-                if (isAdmin)
-                {
-                    return await Task.FromResult(_jwtFactory.GenerateClaimsIdentity(userName, userToVerify.Id, "Admin"));
-                }
-                return await Task.FromResult(_jwtFactory.GenerateClaimsIdentity(userName, userToVerify.Id, "User"));
-            }
-
-            // Credentials are invalid, or account doesn't exist
-            return await Task.FromResult<ClaimsIdentity>(null);
         }
     }
 }

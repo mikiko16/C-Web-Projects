@@ -5,6 +5,7 @@ using MyAspNetProject.Models;
 using MyAspNetProject.Services.Contracts;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -32,10 +33,18 @@ namespace MyAspNetProject.Services
             if (index > 0)
                 input = input.Substring(index, input.Length - index - 4);
 
+
+            var folderName = Path.Combine("Resources", "ProfilePics");
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+
+            var dbPath = Path.Combine(filePath, input);
+            File.Delete(dbPath);
+
             cloudinary.DeleteResourcesByTag(input);
 
-            var ad = db.Ad.FirstOrDefault(x => x.Id == id);
-            db.Ad.Remove(ad);
+            var picture = db.Pictures.FirstOrDefault(x => x.Link == pic.Link);
+            db.Ad.Remove(pic);
+            db.Pictures.Remove(picture);
             db.SaveChanges();
 
             return db.Ad.ToList();

@@ -180,25 +180,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Miro\\.nuget\\packages\\": {},
-    "C:\\Microsoft\\Xamarin\\NuGet\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\usr\\.nuget\\packages\\": {},
+    "C:\\Microsoft\\Xamarin\\NuGet\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Miro\\source\\repos\\ExamPrep C# WEB\\ExamPrep\\SIS.HTTP\\SIS.HTTP.csproj",
+      "projectUniqueName": "C:\\Users\\usr\\GitHub\\C-Web-Projects\\ExamPrep\\SIS.HTTP\\SIS.HTTP.csproj",
       "projectName": "SIS.HTTP",
-      "projectPath": "C:\\Users\\Miro\\source\\repos\\ExamPrep C# WEB\\ExamPrep\\SIS.HTTP\\SIS.HTTP.csproj",
-      "packagesPath": "C:\\Users\\Miro\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Miro\\source\\repos\\ExamPrep C# WEB\\ExamPrep\\SIS.HTTP\\obj\\",
+      "projectPath": "C:\\Users\\usr\\GitHub\\C-Web-Projects\\ExamPrep\\SIS.HTTP\\SIS.HTTP.csproj",
+      "packagesPath": "C:\\Users\\usr\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\usr\\GitHub\\C-Web-Projects\\ExamPrep\\SIS.HTTP\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Microsoft\\Xamarin\\NuGet\\",
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        "C:\\Microsoft\\Xamarin\\NuGet\\"
       ],
       "configFilePaths": [
-        "C:\\Users\\Miro\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\usr\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
       ],
@@ -240,7 +238,7 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
       }
     }
   }

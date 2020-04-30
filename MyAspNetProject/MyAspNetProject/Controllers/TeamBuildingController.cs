@@ -37,7 +37,7 @@ namespace MyAspNetProject.Controllers
         [HttpPost]
         [Authorize(Policy = "ApiUser")]
         [Route("create")]
-        public ActionResult<TeamBuilding> CreateTeamBuilding(TeamBuilding model)
+        public async Task<ActionResult<TeamBuilding>> CreateTeamBuilding(TeamBuilding model)
         {
             UserApp user = _userManager.Users.FirstOrDefault(x => x.Id == model.CreatorId);
             string role = _caller.Claims.Single(c => c.Type == "Role").Value;
@@ -49,20 +49,27 @@ namespace MyAspNetProject.Controllers
 
             if (role == "Admin")
             {
-                return Ok(teambuildingService.CreateTeamBuilding(user.CompanyName, model));
+                return await teambuildingService.CreateTeamBuilding(user.CompanyName, model);
             }
 
-            return Ok();
+            return Unauthorized("You have no rights to create teambuilding !");
         }
 
         [HttpGet]
         [Authorize(Policy = "ApiUser")]
         [Route("AllWithoutAdmin")]
-        public async Task<IEnumerable<UserApp>> GetUsersFromCompany()
+        public async Task<ActionResult<IEnumerable<UserApp>>> GetUsersFromCompany()
         {
+            string role = _caller.Claims.Single(c => c.Type == "Role").Value;
+
             UserApp user = await _userManager.FindByIdAsync(_caller.Claims.Single(c => c.Type == "id").Value);
 
-            return _userManager.Users.Where(x => x.CompanyName == user.CompanyName && x.Id != user.Id && x.IsActive == true).ToList();
+            if (role == "Admin")
+            {
+                return _userManager.Users.Where(x => x.CompanyName == user.CompanyName && x.Id != user.Id && x.IsActive == true).ToList();
+            }
+
+            return Unauthorized("You have no rights for this action !");
         }
 
         [HttpGet]
