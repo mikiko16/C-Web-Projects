@@ -15,13 +15,17 @@ using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using System;
+using MyAspNetProject.TestCFolder;
+using Microsoft.Data.SqlClient;
+using System.Data;
+using WebPush;
 
 namespace MyAspNetProject.Controllers
 {
     [EnableCors("AllowAll")]
     [ApiController]
     [Route("api/[controller]")]
-    public class UserController : ControllerBase
+    public class UserController : Controller
     {
         private readonly ApplicationDbContext db;
         private readonly UserManager<UserApp> userManager;
@@ -122,6 +126,22 @@ namespace MyAspNetProject.Controllers
                 else
                 {
                     await userManager.AddToRoleAsync(newUser, "User");
+                }
+                VapidDetails vapidDetails = new VapidDetails();
+                vapidDetails.PrivateKey = "tUucEQMGJcB19FSboALLmUEZXW8897x8nfOm158ocCA";
+                vapidDetails.PublicKey = "BD525odruiNj8jDtwGNcU7jiaCXUQqM2R1TL4e7GqvFj48kls8iIp9i5zkIXgcu5_5ym_6guLIR4khwTKVKncV0";
+                vapidDetails.Subject = "http://localhost:4200";
+
+                var message = new NotificationModel();
+                message.Title = "New User Registered";
+                message.Message = "Please confirm my request !!!";
+                message.Url = "Without URL";
+                var client = new WebPushClient();
+                var serializedMessage = JsonConvert.SerializeObject(message);
+
+                foreach (var pushSubscription in Subscription.Subscriptions)
+                {
+                    await client.SendNotificationAsync(pushSubscription, serializedMessage, vapidDetails);
                 }
                 return Ok();
             }

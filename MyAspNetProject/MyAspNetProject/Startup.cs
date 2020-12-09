@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
@@ -13,6 +14,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using MyAspNetProject.Controllers;
 using MyAspNetProject.Data;
+using MyAspNetProject.TestCFolder;
 using MyAspNetProject.Helpers;
 using MyAspNetProject.JWT;
 using MyAspNetProject.models;
@@ -21,13 +23,15 @@ using MyAspNetProject.Services.Contracts;
 using System;
 using System.IO;
 using System.Text;
+using Microsoft.EntityFrameworkCore.Storage;
+using WebPush;
 
 namespace MyAspNetProject
 {
     public class Startup
     {
-        private const string SecretKey = "iNivDmHLpUA223sqsfhqGbMRdRj1PVkH";
-        private readonly SymmetricSecurityKey _signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(SecretKey));
+        //private const string SecretKey = "iNivDmHLpUA223sqsfhqGbMRdRj1PVkH";
+        private SymmetricSecurityKey _signingKey;
 
         public Startup(IConfiguration configuration)
         {
@@ -39,15 +43,27 @@ namespace MyAspNetProject
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            _signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration["Secrets:SecretKey"]));
+
+            services.AddControllersWithViews(configure => {
+                configure.Filters.Add(new MyFirstFileter());
+            });
 
             services.AddScoped<ApplicationDbContext>();
             services.AddSingleton<IJwtFactory, JwtFactory>();
+            services.AddSingleton<ICloudinaryService, CloudinaryService>();
             services.AddScoped<IThingService, ThingService>();
             services.AddScoped<ITeamBuildingService, TeamBuildingService>();
             services.AddScoped<IAdService, AdService>();
             services.AddScoped<IImageService, ImageService>();
             services.AddScoped<ICreateClaims, CreateClaims>();
+            var vapidDetails = new VapidDetails(
+                Configuration.GetValue<string>("VapidDetails:Subject"),
+                Configuration.GetValue<string>("VapidDetails:PublicKey"),
+                Configuration.GetValue<string>("VapidDetails:PrivateKey"));
+            services.AddTransient(c => vapidDetails);
+
+            //services.AddSwagger();
 
             services.AddSignalR();
 
@@ -140,8 +156,8 @@ namespace MyAspNetProject
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ApplicationDbContext db)
         {
             app.UseRouting();
-
-            app.UseCors("AllowAll");
+             
+            app.UseCors("AllowAll"); 
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
@@ -164,11 +180,9 @@ namespace MyAspNetProject
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller}/{action=Index}/{id?}");
+                    pattern: "{controller}/{action}/{id?}");
                 endpoints.MapHub<ChatHub>("/chat");
             });
-
-            //db.Database.Migrate();
         }
     }
 }

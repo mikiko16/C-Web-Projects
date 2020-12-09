@@ -79,7 +79,7 @@ namespace MyAspNetProject.Controllers
         {
             UserApp user = await _userManager.FindByIdAsync(_caller.Claims.Single(c => c.Type == "id").Value);
        
-            return teambuildingService.GetActiveTeambuildings(user);
+            return teambuildingService.GetActiveTeambuildings (user);
         }
 
         [HttpGet]

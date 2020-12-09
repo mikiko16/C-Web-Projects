@@ -14,7 +14,7 @@ namespace MyAspNetProject.Data
         public ApplicationDbContext()
         {
 
-        }
+        }  
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

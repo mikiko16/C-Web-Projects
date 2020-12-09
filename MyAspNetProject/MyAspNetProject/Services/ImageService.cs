@@ -14,17 +14,14 @@ namespace MyAspNetProject.Services
 {
     public class ImageService : IImageService
     {
-        Cloudinary cloudinary = new Cloudinary(new Account(
-             "mikiko16",
-             "686516265985614",
-             "cyjH_KBR9Djp3oOQhUWGcKr3FWg"));
-
         Pictures picture = new Pictures();
         private readonly ApplicationDbContext db;
+        private readonly ICloudinaryService cloudinary;
 
-        public ImageService(ApplicationDbContext db)
+        public ImageService(ApplicationDbContext db, ICloudinaryService cloudinary)
         {
             this.db = db;
+            this.cloudinary = cloudinary;
         }
         public async Task<string> UploadAdPicture(IFormFile Image)
         {

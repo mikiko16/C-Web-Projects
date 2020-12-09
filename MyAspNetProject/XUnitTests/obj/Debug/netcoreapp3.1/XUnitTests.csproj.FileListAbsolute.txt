@@ -174,10 +174,11 @@ C:\Users\usr\GitHub\C-Web-Projects\MyAspNetProject\XUnitTests\bin\Debug\netcorea
 C:\Users\usr\GitHub\C-Web-Projects\MyAspNetProject\XUnitTests\bin\Debug\netcoreapp3.1\MyAspNetProject.dll
 C:\Users\usr\GitHub\C-Web-Projects\MyAspNetProject\XUnitTests\bin\Debug\netcoreapp3.1\MyAspNetProject.pdb
 C:\Users\usr\GitHub\C-Web-Projects\MyAspNetProject\XUnitTests\obj\Debug\netcoreapp3.1\XUnitTests.csprojAssemblyReference.cache
-C:\Users\usr\GitHub\C-Web-Projects\MyAspNetProject\XUnitTests\obj\Debug\netcoreapp3.1\XUnitTests.csproj.CoreCompileInputs.cache
 C:\Users\usr\GitHub\C-Web-Projects\MyAspNetProject\XUnitTests\obj\Debug\netcoreapp3.1\XUnitTests.AssemblyInfoInputs.cache
 C:\Users\usr\GitHub\C-Web-Projects\MyAspNetProject\XUnitTests\obj\Debug\netcoreapp3.1\XUnitTests.AssemblyInfo.cs
 C:\Users\usr\GitHub\C-Web-Projects\MyAspNetProject\XUnitTests\obj\Debug\netcoreapp3.1\XUnitTests.csproj.CopyComplete
 C:\Users\usr\GitHub\C-Web-Projects\MyAspNetProject\XUnitTests\obj\Debug\netcoreapp3.1\XUnitTests.dll
 C:\Users\usr\GitHub\C-Web-Projects\MyAspNetProject\XUnitTests\obj\Debug\netcoreapp3.1\XUnitTests.pdb
 C:\Users\usr\GitHub\C-Web-Projects\MyAspNetProject\XUnitTests\obj\Debug\netcoreapp3.1\XUnitTests.genruntimeconfig.cache
+C:\Users\usr\GitHub\C-Web-Projects\MyAspNetProject\XUnitTests\bin\Debug\netcoreapp3.1\BouncyCastle.Crypto.dll
+C:\Users\usr\GitHub\C-Web-Projects\MyAspNetProject\XUnitTests\bin\Debug\netcoreapp3.1\WebPush.dll

@@ -14,14 +14,12 @@ namespace MyAspNetProject.Services
     public class AdService : IAdService
     {
         private readonly ApplicationDbContext db;
+        private readonly ICloudinaryService cloudinary;
 
-        Cloudinary cloudinary = new Cloudinary(new Account(
-             "mikiko16",
-             "686516265985614",
-             "cyjH_KBR9Djp3oOQhUWGcKr3FWg"));
-        public AdService(ApplicationDbContext db)
+        public AdService(ApplicationDbContext db, ICloudinaryService cloudinary)
         {
             this.db = db;
+            this.cloudinary = cloudinary;
         }
 
         public IEnumerable<Ad> Delete(string id)
@@ -40,7 +38,7 @@ namespace MyAspNetProject.Services
             var dbPath = Path.Combine(filePath, input);
             File.Delete(dbPath);
 
-            cloudinary.DeleteResourcesByTag(input);
+            cloudinary.Delete(input);
 
             var picture = db.Pictures.FirstOrDefault(x => x.Link == pic.Link);
             db.Ad.Remove(pic);
