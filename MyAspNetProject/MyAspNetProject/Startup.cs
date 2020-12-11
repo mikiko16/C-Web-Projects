@@ -69,8 +69,8 @@ namespace MyAspNetProject
 
             services.AddAuthentication().AddFacebook(facebookOptions =>
             {
-                facebookOptions.AppId = Configuration["Authentication:Facebook:AppId"];
-                facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
+                facebookOptions.AppId = Configuration["Facebook:AppId"];
+                facebookOptions.AppSecret = Configuration["Facebook:AppSecret"];
             });
 
             var jwtAppSettingOptions = Configuration.GetSection(nameof(JwtIssuerOptions));
