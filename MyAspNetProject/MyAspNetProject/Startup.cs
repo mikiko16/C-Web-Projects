@@ -30,7 +30,6 @@ namespace MyAspNetProject
 {
     public class Startup
     {
-        //private const string SecretKey = "iNivDmHLpUA223sqsfhqGbMRdRj1PVkH";
         private SymmetricSecurityKey _signingKey;
 
         public Startup(IConfiguration configuration)
@@ -57,13 +56,12 @@ namespace MyAspNetProject
             services.AddScoped<IAdService, AdService>();
             services.AddScoped<IImageService, ImageService>();
             services.AddScoped<ICreateClaims, CreateClaims>();
+
             var vapidDetails = new VapidDetails(
                 Configuration.GetValue<string>("VapidDetails:Subject"),
                 Configuration.GetValue<string>("VapidDetails:PublicKey"),
                 Configuration.GetValue<string>("VapidDetails:PrivateKey"));
             services.AddTransient(c => vapidDetails);
-
-            //services.AddSwagger();
 
             services.AddSignalR();
 

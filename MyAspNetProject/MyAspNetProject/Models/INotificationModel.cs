@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace MyAspNetProject.Models
 {
-    public class NotificationModel : INotificationModel
+    public interface INotificationModel
     {
         public string Title { get; set; }
         public string Message { get; set; }

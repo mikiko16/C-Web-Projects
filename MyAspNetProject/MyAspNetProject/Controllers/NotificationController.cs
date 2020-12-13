@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MyAspNetProject.Helpers;
 using MyAspNetProject.Models;
+using MyAspNetProject.Services;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,6 @@ namespace push_notification_angular_dotnet_core.Controllers
     [Route("api/[controller]")]
     public class NotificationController : Controller
     {
-        //public static List<PushSubscription> Subscriptions { get; set; } = new List<PushSubscription>();
 
         [HttpPost("subscribe")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
@@ -37,14 +37,9 @@ namespace push_notification_angular_dotnet_core.Controllers
 
         [HttpPost("broadcast")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
-        public async void Broadcast([FromBody] NotificationModel message, [FromServices] VapidDetails vapidDetails)
+        public void Broadcast([FromBody] NotificationModel message, [FromServices] VapidDetails vapidDetails)
         {
-            var client = new WebPushClient();
-            var serializedMessage = JsonConvert.SerializeObject(message);
-            foreach (var pushSubscription in Subscription.Subscriptions)
-            {
-                await client.SendNotificationAsync(pushSubscription, serializedMessage, vapidDetails);
-            }
+            NotificationService.SendNotification(message, vapidDetails);
         }
     }
 }

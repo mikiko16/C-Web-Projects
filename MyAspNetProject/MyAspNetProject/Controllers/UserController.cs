@@ -19,6 +19,7 @@ using MyAspNetProject.TestCFolder;
 using Microsoft.Data.SqlClient;
 using System.Data;
 using WebPush;
+using MyAspNetProject.Services;
 
 namespace MyAspNetProject.Controllers
 {
@@ -95,7 +96,7 @@ namespace MyAspNetProject.Controllers
 
         [HttpPost]
         [Route("Register")]
-        public async Task<IActionResult> PostRegister(UserApp model)
+        public async Task<IActionResult> PostRegister(UserApp model, [FromServices] VapidDetails vapidDetails)
         {
             if (!ModelState.IsValid)
             {
@@ -127,22 +128,10 @@ namespace MyAspNetProject.Controllers
                 {
                     await userManager.AddToRoleAsync(newUser, "User");
                 }
-                VapidDetails vapidDetails = new VapidDetails();
-                vapidDetails.PrivateKey = "tUucEQMGJcB19FSboALLmUEZXW8897x8nfOm158ocCA";
-                vapidDetails.PublicKey = "BD525odruiNj8jDtwGNcU7jiaCXUQqM2R1TL4e7GqvFj48kls8iIp9i5zkIXgcu5_5ym_6guLIR4khwTKVKncV0";
-                vapidDetails.Subject = "http://localhost:4200";
 
-                var message = new NotificationModel();
-                message.Title = "New User Registered";
-                message.Message = "Please confirm my request !!!";
-                message.Url = "Without URL";
-                var client = new WebPushClient();
-                var serializedMessage = JsonConvert.SerializeObject(message);
+                var message = new NotificationRegisterModel();
+                NotificationService.SendNotification(message, vapidDetails);
 
-                foreach (var pushSubscription in Subscription.Subscriptions)
-                {
-                    await client.SendNotificationAsync(pushSubscription, serializedMessage, vapidDetails);
-                }
                 return Ok();
             }
             return BadRequest(result);
