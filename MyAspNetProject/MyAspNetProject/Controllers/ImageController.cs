@@ -1,5 +1,5 @@
-﻿using CloudinaryDotNet;
-using CloudinaryDotNet.Actions;
+﻿//using CloudinaryDotNet;
+//using CloudinaryDotNet.Actions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
@@ -24,22 +24,14 @@ namespace MyAspNetProject.Controllers
     {
         private readonly ApplicationDbContext db;
         private readonly IImageService imageService;
-        private static IConfiguration Configuration { get; set; }
 
         Pictures picture = new Pictures();
         public ImageController(ApplicationDbContext db,
-                               IImageService imageService,
-                               IConfiguration config)
+                               IImageService imageService)
         {
             this.db = db;
             this.imageService = imageService;
-            Configuration = config;
         }
-
-        Cloudinary cloudinary = new Cloudinary(new Account(
-             Configuration.GetValue<string>("Cloudinary: username"),
-             Configuration.GetValue<string>("Cloudinary: appkey"),
-             Configuration.GetValue<string>("Cloudinary: appsecret")));
 
         [HttpPost]
         [Authorize(Policy = "ApiUser")]

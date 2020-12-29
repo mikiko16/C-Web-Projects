@@ -22,8 +22,7 @@ namespace MyAspNetProject.Controllers
                 Text = text,
                 SendAt = DateTimeOffset.UtcNow,
             };
-            // invoke this ReceiveMessage method in the client
-            // Broadcast to all clients
+
             await Clients.All.SendAsync(
                "ReceiveMessage",
                message.SenderName,

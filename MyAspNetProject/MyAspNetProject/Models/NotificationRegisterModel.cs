@@ -17,7 +17,6 @@ namespace MyAspNetProject.Models
 
         public string Message { get; set; }
 
-        //[JsonProperty]
         public string Url { get; set; }
     }
 }

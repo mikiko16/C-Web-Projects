@@ -63,6 +63,12 @@ namespace MyAspNetProject
                 Configuration.GetValue<string>("VapidDetails:PrivateKey"));
             services.AddTransient(c => vapidDetails);
 
+            Cloudinary cloudinary = new Cloudinary(new Account(
+                 Configuration.GetValue<string>("Cloudinary:username"),
+                 Configuration.GetValue<string>("Cloudinary:appkey"),
+                 Configuration.GetValue<string>("Cloudinary:appsecret")));
+            services.AddTransient(c => cloudinary);
+
             services.AddSignalR();
 
             services.AddAuthentication().AddFacebook(facebookOptions =>

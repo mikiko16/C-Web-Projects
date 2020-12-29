@@ -1,5 +1,7 @@
 ﻿using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using MyAspNetProject.Services.Contracts;
 using System;
 using System.Collections.Generic;
@@ -10,10 +12,11 @@ namespace MyAspNetProject.Services
 {
     public class CloudinaryService : ICloudinaryService
     {
-        Cloudinary cloudinary = new Cloudinary(new Account(
-             "mikiko16",
-             "686516265985614",
-             "cyjH_KBR9Djp3oOQhUWGcKr3FWg"));
+        private Cloudinary cloudinary;
+        public CloudinaryService([FromServices] Cloudinary _cloudinary)
+        {
+            this.cloudinary = _cloudinary;
+        }
         public ImageUploadResult Upload(ImageUploadParams data)
         {
             return cloudinary.Upload(data);
