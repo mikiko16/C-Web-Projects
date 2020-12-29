@@ -22,14 +22,11 @@ namespace MyAspNetProject.Controllers
     [Route("images")]
     public class ImageController
     {
-        private readonly ApplicationDbContext db;
         private readonly IImageService imageService;
 
         Pictures picture = new Pictures();
-        public ImageController(ApplicationDbContext db,
-                               IImageService imageService)
+        public ImageController(IImageService imageService)
         {
-            this.db = db;
             this.imageService = imageService;
         }
 
@@ -54,7 +51,8 @@ namespace MyAspNetProject.Controllers
                 throw new Exception("Please select profile picture");
 
             var pictures = await imageService.UploadTeamPicture(Image, Id);
-            return db.Pictures.Where(x => x.TeamBuildingId == pictures);
+
+            return imageService.GetAllPictures(pictures);
         }
     }
 }

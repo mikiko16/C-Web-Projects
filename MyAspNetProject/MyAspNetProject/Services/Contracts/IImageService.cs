@@ -15,5 +15,7 @@ namespace MyAspNetProject.Services.Contracts
         public Task<string> UploadTeamPicture(IFormFile Image, IFormCollection data);
 
         public Task<ImageUploadResult> UploadPicture(IFormFile Image);
+
+        public IEnumerable<Pictures> GetAllPictures(string pic);
     }
 }

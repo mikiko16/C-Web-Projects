@@ -22,7 +22,6 @@ namespace MyAspNetProject.Controllers
 
     public class ExternalAuthController : Controller
     {
-        private readonly ApplicationDbContext _appDbContext;
         private readonly UserManager<UserApp> _userManager;
         private readonly IJwtFactory _jwtFactory;
         private readonly RoleManager<IdentityRole> roleManager;
@@ -31,13 +30,11 @@ namespace MyAspNetProject.Controllers
         private static readonly HttpClient Client = new HttpClient();
 
         public ExternalAuthController(UserManager<UserApp> userManager,
-                                      ApplicationDbContext appDbContext, 
                                       IJwtFactory jwtFactory, 
                                       IOptions<JwtIssuerOptions> jwtOptions,
                                       RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
-            _appDbContext = appDbContext;
             _jwtFactory = jwtFactory;
             this.roleManager = roleManager;
             _jwtOptions = jwtOptions.Value;

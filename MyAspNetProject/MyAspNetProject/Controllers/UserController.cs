@@ -15,11 +15,11 @@ using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using System;
-using MyAspNetProject.TestCFolder;
 using Microsoft.Data.SqlClient;
 using System.Data;
 using WebPush;
 using MyAspNetProject.Services;
+using MyAspNetProject.Services.Contracts;
 
 namespace MyAspNetProject.Controllers
 {
@@ -28,7 +28,7 @@ namespace MyAspNetProject.Controllers
     [Route("api/[controller]")]
     public class UserController : Controller
     {
-        private readonly ApplicationDbContext db;
+        private readonly IUserService userService;
         private readonly UserManager<UserApp> userManager;
         private readonly SignInManager<UserApp> signInManager;
         private readonly IJwtFactory _jwtFactory;
@@ -37,16 +37,16 @@ namespace MyAspNetProject.Controllers
         private readonly JwtIssuerOptions _jwtOptions;
         private readonly ClaimsPrincipal _caller;
         UserApp userToVerify;
-        public UserController(ApplicationDbContext db,
-                              UserManager<UserApp> userManager,
+        public UserController(UserManager<UserApp> userManager,
                               SignInManager<UserApp> signInManager,
                               IJwtFactory jwtFactory,
                               IOptions<JwtIssuerOptions> jwtOptions,
                               IHttpContextAccessor httpContextAccessor,
                               RoleManager<IdentityRole> roleManager,
-                              ICreateClaims createClaims)
+                              ICreateClaims createClaims,
+                              IUserService UserService)
         {
-            this.db = db;
+            this.userService = UserService;
             this.userManager = userManager;
             this.signInManager = signInManager;
             this._jwtFactory = jwtFactory;
@@ -103,7 +103,7 @@ namespace MyAspNetProject.Controllers
                 return BadRequest();
             }
 
-            bool hasCompany = db.Users.Any(x => x.CompanyName == model.CompanyName.ToUpper());
+            bool hasCompany = userService.HasCompany(model.CompanyName);
 
             var newUser = new UserApp
             {
@@ -152,15 +152,11 @@ namespace MyAspNetProject.Controllers
         [Route("update/{id}")]
         public async Task<IEnumerable<UserApp>> UpdateUserState(string id)
         {
-            var user = db.Users.FirstOrDefault(x => x.Id == id);
-            user.IsActive = true;
-            db.SaveChanges();
-
-            var notActiveUsers = db.Users.Where(x => x.CompanyName == user.CompanyName && x.IsActive == false).ToList();
+            var user = userService.UpdateState(id);
 
             await SendEmail.Execute(user.Email, user.FirstName);
 
-            return notActiveUsers;
+            return userService.GetInactiveUsers(user.CompanyName);
         }
 
         [HttpDelete]
@@ -168,13 +164,10 @@ namespace MyAspNetProject.Controllers
         [Route("delete/{id}")]
         public async Task<IEnumerable<UserApp>> DeleteUser(string id)
         {
-            var user = db.Users.FirstOrDefault(x => x.Id == id);
+            var user = userService.GetUser(id);
             await userManager.DeleteAsync(user);
-            db.SaveChanges();
 
-            var allUsers = db.Users.Where(x => x.CompanyName == user.CompanyName && x.IsActive == false).ToList();
-
-            return allUsers;
+            return userService.GetInactiveUsers(user.CompanyName);
         }
     }
 }

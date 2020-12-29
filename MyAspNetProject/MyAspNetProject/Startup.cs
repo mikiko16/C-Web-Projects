@@ -14,7 +14,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using MyAspNetProject.Controllers;
 using MyAspNetProject.Data;
-using MyAspNetProject.TestCFolder;
 using MyAspNetProject.Helpers;
 using MyAspNetProject.JWT;
 using MyAspNetProject.models;
@@ -44,10 +43,6 @@ namespace MyAspNetProject
         {
             _signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration["Secrets:SecretKey"]));
 
-            services.AddControllersWithViews(configure => {
-                configure.Filters.Add(new MyFirstFileter());
-            });
-
             services.AddScoped<ApplicationDbContext>();
             services.AddSingleton<IJwtFactory, JwtFactory>();
             services.AddSingleton<ICloudinaryService, CloudinaryService>();
@@ -55,6 +50,7 @@ namespace MyAspNetProject
             services.AddScoped<ITeamBuildingService, TeamBuildingService>();
             services.AddScoped<IAdService, AdService>();
             services.AddScoped<IImageService, ImageService>();
+            services.AddScoped<IUserService, UserService>();
             services.AddScoped<ICreateClaims, CreateClaims>();
 
             var vapidDetails = new VapidDetails(

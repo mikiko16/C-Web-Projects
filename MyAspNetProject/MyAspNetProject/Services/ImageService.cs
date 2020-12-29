@@ -78,5 +78,10 @@ namespace MyAspNetProject.Services
 
             return uploadResult;
         }
+
+        public IEnumerable<Pictures> GetAllPictures(string pic)
+        {
+            return db.Pictures.Where(x => x.TeamBuildingId == pic);
+        }
     }
 }
