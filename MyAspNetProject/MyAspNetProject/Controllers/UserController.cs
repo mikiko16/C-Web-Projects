@@ -78,6 +78,7 @@ namespace MyAspNetProject.Controllers
             {
                 return BadRequest("Something is missing !");
             }
+
             var result = await this.signInManager.PasswordSignInAsync(model.Email,
                 model.PasswordHash, true, false);
 
